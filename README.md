@@ -62,6 +62,44 @@ Post feedback
 
 ### Training
 
+```bash
+pip install tensorflow
+```
+
+```python
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
+
+# Define the model
+model = Sequential([
+    Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)),
+    MaxPooling2D(pool_size=(2, 2)),
+    Flatten(),
+    Dense(64, activation='relu'),
+    Dense(1, activation='sigmoid')
+])
+
+# Compile the model
+model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+# Assume you have your training data in `train_images` and `train_labels`
+# train_images = ...
+# train_labels = ...
+
+# Train the model
+model.fit(train_images, train_labels, epochs=10, batch_size=32)
+
+# Assume you have your test data in `test_images` and `test_labels`
+# test_images = ...
+# test_labels = ...
+
+# Evaluate the model
+model.evaluate(test_images, test_labels)
+```
+
 ### Installation
 ```bash
 yarn install coordinates-tinder
