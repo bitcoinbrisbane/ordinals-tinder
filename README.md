@@ -12,16 +12,31 @@ Similarly, Tinder's innovative swipe interface, which popularized the simple 'sw
 This project aims to combine both "match making" techinques to allow users to browse new creators that they perhaps would not discover.
 
 ## User profiles
-By using the blockchain, we can obtain some demographics about the customer.
+By using the blockchain, we can obtain some demographics about the customer.  These properties may include:
 
 * First seen on chain
-* Trade / In Out volume
+* Trade history and transaction volume
 * Trade frequence
 * Balances
 * Holding time
+* Previous NFT sale history
+
+For this POC we will only use current balance as a dimmesion.
+
+## The tech stack
+
+## Work flow
+
+### New users
+
+- Look up wallet
+- Cache data
+- Offer suggestions
+
+### Training
 
 ## Installation
-```
+```bash
 yarn install coordinates-tinder
 ```
 
