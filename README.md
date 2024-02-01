@@ -38,12 +38,12 @@ For this POC we will only use current balance as a dimmesion.
 
 ### Training
 
-## Installation
+### Installation
 ```bash
 yarn install coordinates-tinder
 ```
 
-## Running the Python API
+## #Running the Python API
 ```bash
 uvicorn main:app --reload
 ```
