@@ -27,7 +27,6 @@ For this POC we will only use current balance as a dimmesion.
 
 <img width="1101" alt="image" src="https://github.com/bitcoinbrisbane/coordinates-tinder/assets/8411406/8fc8aad7-4500-470e-a3c3-a62e0a1357d7">
 
-
 ## Work flow
 
 ### New users
@@ -35,6 +34,22 @@ For this POC we will only use current balance as a dimmesion.
 - Look up wallet
 - Cache data
 - Offer suggestions
+
+### API
+
+Get next ordrinal
+
+- GET /?address=bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
+
+```json
+{
+  "index": 1,
+  "price": 1000
+  "owner": ""
+  "metadata": {
+  }
+}
+```
 
 ### Training
 
