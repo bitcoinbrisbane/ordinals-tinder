@@ -105,7 +105,7 @@ model.evaluate(test_images, test_labels)
 yarn install coordinates-tinder
 ```
 
-## #Running the Python API
+## Running the Python API
 ```bash
 uvicorn main:app --reload
 ```
