@@ -25,6 +25,9 @@ For this POC we will only use current balance as a dimmesion.
 
 ## The tech stack
 
+<img width="1101" alt="image" src="https://github.com/bitcoinbrisbane/coordinates-tinder/assets/8411406/8fc8aad7-4500-470e-a3c3-a62e0a1357d7">
+
+
 ## Work flow
 
 ### New users
