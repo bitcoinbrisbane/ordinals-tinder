@@ -51,6 +51,15 @@ Get next ordrinal
 }
 ```
 
+Post feedback
+
+- POST /index
+```json
+{
+  "liked": true
+}
+```
+
 ### Training
 
 ### Installation
