@@ -100,6 +100,49 @@ model.fit(train_images, train_labels, epochs=10, batch_size=32)
 model.evaluate(test_images, test_labels)
 ```
 
+### Front end
+
+```javascript
+import React from 'react';
+import { useSwipeable } from 'react-swipeable';
+import axios from 'axios';
+
+function SwipeableImage({ imageUrl, onSwipe }) {
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleSwipe('left'),
+    onSwipedRight: () => handleSwipe('right'),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true
+  });
+
+  const handleSwipe = (direction) => {
+    console.log(`Swiped ${direction}`);
+    onSwipe(direction);
+
+    // Post to API
+    axios.post('YOUR_API_ENDPOINT', {
+      image: imageUrl,
+      swipeDirection: direction
+    })
+    .then(response => {
+      console.log('Response from API:', response.data);
+    })
+    .catch(error => {
+      console.error('Error posting to API:', error);
+    });
+  };
+
+  return (
+    <div {...handlers} style={{ width: '300px', height: '300px', overflow: 'hidden' }}>
+      <img src={imageUrl} alt="Swipeable" style={{ width: '100%', height: '100%' }} />
+    </div>
+  );
+}
+
+export default SwipeableImage;
+
+```
+
 ### Installation
 ```bash
 yarn install coordinates-tinder
