@@ -1,4 +1,4 @@
-# coordinates-tinder
+# ordinals-tinder
 Think ordinals, swipe left, swipe right.
 
 ## About
