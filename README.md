@@ -1,4 +1,4 @@
-# coordinates-tinder
+# ordinals-tinder
 Think ordinals, swipe left, swipe right.
 
 ## About
@@ -9,7 +9,9 @@ An academic paper titled "Deep Learning for Recommender Systems: A Netflix Case 
 Similarly, Tinder's innovative swipe interface, which popularized the simple 'swipe right to like, swipe left to pass' concept, revolutionized the online dating experience. This intuitive design made user decisions quick and easy, significantly streamlining the process of finding potential matches. By reducing the complexity of interacting with a dating app, Tinder attracted a broad user base, becoming a cultural phenomenon. Its swipe mechanism, mimicking the natural process of selection or rejection, also added a gamified element to dating, making it more engaging and less daunting for users. This innovation not only transformed the online dating landscape but also influenced user interface design in various other applications.
 
 ## This project
-This project aims to combine both "match making" techniques to allow users to browse new creators that they perhaps would not discover.
+This project aims to build a recommendation system to allow allow users to browse new creators that they perhaps would not discover.
+
+We will use TensorFlow Recommenders and content based filtering / collaborative filtering to build a recommendation system for NFTs.  We will use the blockchain to obtain user profiles and use this data to train our model.
 
 ## Content filtering
 
@@ -107,7 +109,17 @@ Post feedback
 ### Training
 
 ```bash
-pip install tensorflow
+#!/bin/bash
+
+# Create virtual environment
+python3 -m venv venv
+pip install -r requirements.txt
+
+source venv/bin/activate
+```
+
+```bash
+python train.py
 ```
 
 ```python
@@ -196,3 +208,9 @@ yarn install coordinates-tinder
 ```bash
 uvicorn main:app --reload
 ```
+
+## References
+
+- https://realpython.com/build-recommendation-engine-collaborative-filtering/
+- https://www.tensorflow.org/recommenders
+- https://www.youtube.com/watch?v=v90un9ALRzw&list=PLQY2H8rRoyvy2MiyUBz5RWZr5MPFkV3qz&index=2
