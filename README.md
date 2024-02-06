@@ -108,6 +108,9 @@ Post feedback
 
 ### Training
 
+To obtain more dimensions, we need to abstract meta data or properties from the NFT.  This could be done by hand, or by using a machine learning model to extract the properties.
+
+
 ```bash
 #!/bin/bash
 
