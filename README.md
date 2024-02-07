@@ -79,6 +79,13 @@ For this POC we will only use current balance as a dimension.
 - Cache data
 - Offer suggestions
 
+## Start the API
+
+```bash
+docker-compose up
+uvicorn main:app --reload
+```
+
 ### API
 
 Suggest next ordinal
@@ -92,6 +99,7 @@ Suggest next ordinal
   "sat": "1162315496355503",
   "price": 1000,
   "owner": "",
+  "image": "https://api.example.com/image/1162315496355503",
   "metadata": {
   }
 }
