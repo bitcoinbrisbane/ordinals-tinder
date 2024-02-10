@@ -23,7 +23,10 @@ def next(address: str):
     print("address", address)
 
     # Get random ordinal number
-    id = random.randint(1, 1000000)
+    id = random.randint(1, 100)
+
+    ## load a dictionary of ordinals from the json
+    
 
     # lookup the next ordinal for this users address
     # bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
