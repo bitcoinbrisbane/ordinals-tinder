@@ -120,13 +120,11 @@ To obtain more dimensions, we need to abstract meta data or properties from the 
 
 
 ```bash
-#!/bin/bash
-
 # Create virtual environment
 python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 
-source venv/bin/activate
 ```
 
 ```bash

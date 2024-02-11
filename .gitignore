@@ -399,3 +399,4 @@ FodyWeavers.xsd
 src/backend/venv/*
 
 .env
+backend/venv/
