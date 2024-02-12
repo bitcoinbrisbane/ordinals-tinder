@@ -1,5 +1,7 @@
-# from mongoengine import Document, StringField, IntField
+import pymongo
 import json
+
+from dtos.index import Feedback
 
 class Ordinal():
     def __init__(self, id, number, address, value, content_type, sat_rarity):
@@ -22,6 +24,17 @@ class Ordinal():
 
     def __repr__(self):
         return f"Ordinal(id='{self.id}', number={self.number})"
+
+
+def insert_feedback(feedback: Feedback):
+    client = pymongo.MongoClient("mongodb://root:example@localhost:27017/")
+    db = client["ordinals"]
+    collection = db["feedback"]
+
+    feedback_dict = feedback.to_dict()
+
+    result = collection.insert_one(feedback_dict)
+    print(f"Inserted feedback with id: {result.inserted_id}")
 
 
 def load_seed_ordinals() -> list[Ordinal]:

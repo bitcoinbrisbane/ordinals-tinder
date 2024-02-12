@@ -1,7 +1,3 @@
-# class OrdinalMetaData(Document):
-#     image = StringField(required=True)
-#     label = IntField(required=True)
-
 
 class Ordinal():
     def __init__(self, id, number, address, sat, price, content_type, sat_rarity):

@@ -26,10 +26,10 @@ def next(address: str):
     i = random.randint(1, 10)
     ordinal = ordinals[i]
 
-    # # lookup the next ordinal for this users address
-    # # bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
+    # lookup the next ordinal for this users address
+    # bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
 
-    # # https://docs.hiro.so/ordinals/inscription-content
+    # https://docs.hiro.so/ordinals/inscription-content
     # url = f"https://api.hiro.so/ordinals/v1/inscriptions/{id}/content"
 
     # payload = {}
@@ -48,32 +48,20 @@ def next(address: str):
 #     return {"index": index}
 
 
-# def verify_message(address, signature, message):
-#     """
-#     Verify a message signed by a Bitcoin private key.
-
-#     :param address: The Bitcoin address as a string.
-#     :param signature: The signature as a base64 encoded string.
-#     :param message: The original message that was signed.
-#     :return: True if the verification is successful, False otherwise.
-#     """
-#     try:
-#         message = BitcoinMessage(message)
-#         return VerifyMessage(P2PKHBitcoinAddress(address), signature, message)
-#     except Exception as e:
-#         print(f"Verification failed: {e}")
-#         return False
-
-
 @app.post(("/"))
 def set_feedback(feedback: Feedback):
 
     # validate the signature
-    if not utils.verify_message(feedback.address, feedback.signature, feedback.message):
+    if not utils.verify_message(feedback.user, feedback.signature, feedback.message):
         return {"error": "Invalid signature"}
 
-    data = {
-        "liked": True
-    }
+    
+    # save the feedback to the database
+    db.insert_feedback(feedback)
 
+    return {"index": 0}
+
+
+@app.post("/buy")
+def buy():
     return {"index": 0}

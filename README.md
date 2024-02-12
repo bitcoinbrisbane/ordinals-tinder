@@ -95,10 +95,9 @@ Suggest next ordinal
 ```json
 {
   "id": "6abcb215dae6058653f4ba4d717a00fca46ac8c3dea46876057c128f3786f892i0",
+  "number": 1162315496355503,
   "address": "bc1paxxeugh54jvrqcwz0hwjlnt4tktuef5jfmfp6tn77x5cdjkrtf3q2lqgh4",
-  "sat": "1162315496355503",
-  "price": 1000,
-  "owner": "",
+  "value": 1000,
   "image": "https://api.example.com/image/1162315496355503",
   "metadata": {
   }
