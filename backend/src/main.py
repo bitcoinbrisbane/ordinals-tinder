@@ -1,13 +1,8 @@
 # Create a fast api
-# import bitcoin
-# import requests
 import random
-# from backend.src.db import load_seed_ordinals
+from dtos.index import Feedback
+import utils
 import db
-
-# from bitcoin.wallet import CBitcoinSecret, P2PKHBitcoinAddress
-# from bitcoin.signmessage import BitcoinMessage, VerifyMessage
-
 
 from fastapi import FastAPI
 
@@ -24,7 +19,7 @@ def next(address: str):
 
     print("address", address)
 
-    ## load a dictionary of ordinals from the json
+    # load a dictionary of ordinals from the json
     ordinals = db.load_seed_ordinals()
 
     # Get random ordinal number
@@ -70,15 +65,15 @@ def next(address: str):
 #         return False
 
 
-# @app.post(("/"))
-# def image(feedback: Feedback):
+@app.post(("/"))
+def set_feedback(feedback: Feedback):
 
-#     # validate the signature
-#     if not verify_message(feedback.address, feedback.signature, feedback.message):
-#         return {"error": "Invalid signature"}
+    # validate the signature
+    if not utils.verify_message(feedback.address, feedback.signature, feedback.message):
+        return {"error": "Invalid signature"}
 
-#     data = {
-#         "liked": True
-#     }
+    data = {
+        "liked": True
+    }
 
-#     return {"index": index}
+    return {"index": 0}

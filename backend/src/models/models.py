@@ -3,7 +3,7 @@
 #     label = IntField(required=True)
 
 
-class Ordinal(): -> list
+class Ordinal():
     def __init__(self, id, number, address, sat, price, content_type, sat_rarity):
         self.id = id
         self.number = number
