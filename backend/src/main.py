@@ -1,8 +1,9 @@
 # Create a fast api
 # import bitcoin
 # import requests
-# import random
+import random
 # from backend.src.db import load_seed_ordinals
+import db
 
 # from bitcoin.wallet import CBitcoinSecret, P2PKHBitcoinAddress
 # from bitcoin.signmessage import BitcoinMessage, VerifyMessage
@@ -18,37 +19,33 @@ def root():
     return {"message": "Hello World"}
 
 
-# @app.get("/next/{address}")
-# def next(address: str):
+@app.get("/next/{address}")
+def next(address: str):
 
-#     print("address", address)
+    print("address", address)
 
+    ## load a dictionary of ordinals from the json
+    ordinals = db.load_seed_ordinals()
 
-#     ## load a dictionary of ordinals from the json
-#     ordinals = load_seed_ordinals()
+    # Get random ordinal number
+    i = random.randint(1, 10)
+    ordinal = ordinals[i]
 
-#     # Get random ordinal number
-#     id = random.randint(1, 100)
+    # # lookup the next ordinal for this users address
+    # # bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
 
-#     ordinal = ordinals[id]
+    # # https://docs.hiro.so/ordinals/inscription-content
+    # url = f"https://api.hiro.so/ordinals/v1/inscriptions/{id}/content"
 
+    # payload = {}
+    # headers = {
+    #     'Accept': 'application/json'
+    # }
 
-#     # lookup the next ordinal for this users address
-#     # bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
+    # # response = requests.request("GET", url, headers=headers, data=payload)
+    # # print(response.text)
 
-#     # https://docs.hiro.so/ordinals/inscription-content
-#     url = f"https://api.hiro.so/ordinals/v1/inscriptions/{id}/content"
-
-#     payload = {}
-#     headers = {
-#         'Accept': 'application/json'
-#     }
-
-#     response = requests.request("GET", url, headers=headers, data=payload)
-#     print(response.text)
-
-
-#     return ordinal
+    return ordinal
 
 
 # @app.get("/image/{index}")

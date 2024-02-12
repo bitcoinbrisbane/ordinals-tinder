@@ -1,9 +1,9 @@
-class OrdinalMetaData(Document):
-    image = StringField(required=True)
-    label = IntField(required=True)
+# class OrdinalMetaData(Document):
+#     image = StringField(required=True)
+#     label = IntField(required=True)
 
 
-class Ordinal():
+class Ordinal(): -> list
     def __init__(self, id, number, address, sat, price, content_type, sat_rarity):
         self.id = id
         self.number = number
@@ -24,3 +24,5 @@ class Ordinal():
             "content_type": self.content_type,
             "sat_rarity": self.sat_rarity
         }
+
+    
