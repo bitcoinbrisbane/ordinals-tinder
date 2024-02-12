@@ -19,12 +19,24 @@ def next(address: str):
 
     print("address", address)
 
-    # load a dictionary of ordinals from the json
-    ordinals = db.load_seed_ordinals()
+    feedbacks = db.get_feedbacks(address)
+    if feedbacks.count() < 5:
+        ## select random ordinals to train
 
-    # Get random ordinal number
-    i = random.randint(1, 10)
-    ordinal = ordinals[i]
+        # load a dictionary of ordinals from the json
+        ordinals = db.load_seed_ordinals()
+
+        # Get random ordinal number
+        i = random.randint(1, 10)
+        ordinal = ordinals[i]
+        return ordinal
+    else:
+        ## filter liked ordinals
+        feedbacks = feedbacks.filter(liked=True)
+
+        ## select the next ordinal to train
+        ordinal = db.get_next_ordinal(address)
+        return ordinal
 
     # lookup the next ordinal for this users address
     # bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
@@ -39,8 +51,6 @@ def next(address: str):
 
     # # response = requests.request("GET", url, headers=headers, data=payload)
     # # print(response.text)
-
-    return ordinal
 
 
 # @app.get("/image/{index}")

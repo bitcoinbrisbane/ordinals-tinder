@@ -2,28 +2,7 @@ import pymongo
 import json
 
 from dtos.index import Feedback
-
-class Ordinal():
-    def __init__(self, id, number, address, value, content_type, sat_rarity):
-        self.id = id
-        self.number = number
-        self.address = address
-        self.value = value
-        self.content_type = content_type
-        self.sat_rarity = sat_rarity
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "number": self.number,
-            "address": self.address,
-            "value": self.value,
-            "content_type": self.content_type,
-            "sat_rarity": self.sat_rarity
-        }
-
-    def __repr__(self):
-        return f"Ordinal(id='{self.id}', number={self.number})"
+from models.index import Ordinal
 
 
 def insert_feedback(feedback: Feedback):
@@ -47,3 +26,15 @@ def load_seed_ordinals() -> list[Ordinal]:
                     for ordinal in data['ordinals']]
 
     return ordinals
+
+
+def get_feedbacks(user) -> list[Feedback]:
+    client = pymongo.MongoClient("mongodb://root:example@localhost:27017/")
+    db = client["ordinals"]
+    collection = db["feedback"]
+
+    query = { "user": user }
+
+    feedbacks = collection.find(query)
+
+    return feedbacks
