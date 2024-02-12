@@ -1,13 +1,13 @@
 # Create a fast api
 # import bitcoin
-import requests
-import random
-from backend.src.db import load_seed_ordinals
+# import requests
+# import random
+# from backend.src.db import load_seed_ordinals
 
 # from bitcoin.wallet import CBitcoinSecret, P2PKHBitcoinAddress
 # from bitcoin.signmessage import BitcoinMessage, VerifyMessage
 
-from backend.src.dtos.feedback import Feedback
+
 from fastapi import FastAPI
 
 app = FastAPI()
@@ -18,70 +18,70 @@ def root():
     return {"message": "Hello World"}
 
 
-@app.get("/next/{address}")
-def next(address: str):
+# @app.get("/next/{address}")
+# def next(address: str):
 
-    print("address", address)
-
-
-    ## load a dictionary of ordinals from the json
-    ordinals = load_seed_ordinals()
-
-    # Get random ordinal number
-    id = random.randint(1, 100)
-
-    ordinal = ordinals[id]
+#     print("address", address)
 
 
-    # lookup the next ordinal for this users address
-    # bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
+#     ## load a dictionary of ordinals from the json
+#     ordinals = load_seed_ordinals()
 
-    # https://docs.hiro.so/ordinals/inscription-content
-    url = f"https://api.hiro.so/ordinals/v1/inscriptions/{id}/content"
+#     # Get random ordinal number
+#     id = random.randint(1, 100)
 
-    payload = {}
-    headers = {
-        'Accept': 'application/json'
-    }
-
-    response = requests.request("GET", url, headers=headers, data=payload)
-    print(response.text)
+#     ordinal = ordinals[id]
 
 
-    return ordinal
+#     # lookup the next ordinal for this users address
+#     # bc1p5d7rjq7g6rdk2yhzks9smlaqtedr4dekq08ge8ztwac72sfr9rusxg3297
+
+#     # https://docs.hiro.so/ordinals/inscription-content
+#     url = f"https://api.hiro.so/ordinals/v1/inscriptions/{id}/content"
+
+#     payload = {}
+#     headers = {
+#         'Accept': 'application/json'
+#     }
+
+#     response = requests.request("GET", url, headers=headers, data=payload)
+#     print(response.text)
 
 
-@app.get("/image/{index}")
-def image(index: int):
-    return {"index": index}
+#     return ordinal
 
 
-def verify_message(address, signature, message):
-    """
-    Verify a message signed by a Bitcoin private key.
-
-    :param address: The Bitcoin address as a string.
-    :param signature: The signature as a base64 encoded string.
-    :param message: The original message that was signed.
-    :return: True if the verification is successful, False otherwise.
-    """
-    try:
-        message = BitcoinMessage(message)
-        return VerifyMessage(P2PKHBitcoinAddress(address), signature, message)
-    except Exception as e:
-        print(f"Verification failed: {e}")
-        return False
+# @app.get("/image/{index}")
+# def image(index: int):
+#     return {"index": index}
 
 
-@app.post(("/"))
-def image(feedback: Feedback):
+# def verify_message(address, signature, message):
+#     """
+#     Verify a message signed by a Bitcoin private key.
 
-    # validate the signature
-    if not verify_message(feedback.address, feedback.signature, feedback.message):
-        return {"error": "Invalid signature"}
+#     :param address: The Bitcoin address as a string.
+#     :param signature: The signature as a base64 encoded string.
+#     :param message: The original message that was signed.
+#     :return: True if the verification is successful, False otherwise.
+#     """
+#     try:
+#         message = BitcoinMessage(message)
+#         return VerifyMessage(P2PKHBitcoinAddress(address), signature, message)
+#     except Exception as e:
+#         print(f"Verification failed: {e}")
+#         return False
 
-    data = {
-        "liked": True
-    }
 
-    return {"index": index}
+# @app.post(("/"))
+# def image(feedback: Feedback):
+
+#     # validate the signature
+#     if not verify_message(feedback.address, feedback.signature, feedback.message):
+#         return {"error": "Invalid signature"}
+
+#     data = {
+#         "liked": True
+#     }
+
+#     return {"index": index}
