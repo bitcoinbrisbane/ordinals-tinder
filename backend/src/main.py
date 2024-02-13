@@ -6,6 +6,9 @@ import db
 import clients.hiro
 
 from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+from fastapi import HTTP_201_CREATED
 
 app = FastAPI()
 
@@ -22,7 +25,7 @@ def next(address: str):
 
     feedbacks = db.get_feedbacks(address)
     if len(feedbacks) < 5:
-        ## select random ordinals to train
+        # select random ordinals to train
 
         # load a dictionary of ordinals from the json
         ordinals = db.load_seed_ordinals()
@@ -32,32 +35,40 @@ def next(address: str):
         ordinal = ordinals[i]
         return ordinal
     else:
-        ## filter liked ordinals
+        # filter liked ordinals
         feedbacks = feedbacks.filter(liked=True)
 
-        ## select the next ordinal to train
+        # select the next ordinal to train
         ordinal = db.get_next_ordinal(address)
         return ordinal
 
 
+@app.get("/ordinal/{index}")
+def image(index: str):
+    ordinal = clients.hiro.get_ordinal_metadata(index)
+    # Return as json
+    jsonable_encoder(ordinal)
+    return JSONResponse(content=ordinal)
+
+
 @app.get("/image/{index}")
-def image(index: int):
+def image(index: str):
     image = clients.hiro.get_ordinal_content(index)
+    print(image)
     return image
 
 
 @app.post(("/"))
-def set_feedback(feedback: Feedback):
+def set_feedback(feedback: Feedback, status_code=HTTP_201_CREATED):
 
     # validate the signature
     if not utils.verify_message(feedback.user, feedback.signature, feedback.message):
         return {"error": "Invalid signature"}
 
-    
     # save the feedback to the database
-    db.insert_feedback(feedback)
+    inserted_id = db.insert_feedback(feedback)
 
-    return {"index": 0}
+    return {"id": inserted_id}
 
 
 @app.post("/buy")

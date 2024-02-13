@@ -15,6 +15,7 @@ def insert_feedback(feedback: Feedback):
 
     result = collection.insert_one(feedback_dict)
     print(f"Inserted feedback with id: {result.inserted_id}")
+    return result.inserted_id
 
 
 def load_seed_ordinals() -> list[Ordinal]:
