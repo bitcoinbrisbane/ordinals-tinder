@@ -1,3 +1,6 @@
+# https://pypi.org/project/bitcoin/
+from bitcoin import ecdsa_verify
+
 def verify_message(address, signature, message):
     """
     Verify a message signed by a Bitcoin private key.
@@ -13,4 +16,5 @@ def verify_message(address, signature, message):
     # bitcoin_message = BitcoinMessage(message)
     # # Verify the message
     # return VerifyMessage(public_key, signature, bitcoin_message)
-    return True
+    
+    return ecdsa_verify(message, signature, address)

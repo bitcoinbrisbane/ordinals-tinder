@@ -6,7 +6,8 @@ from models.index import Ordinal
 
 
 def insert_feedback(feedback: Feedback):
-    client = pymongo.MongoClient("mongodb://root:example@localhost:27017/")
+    # client = pymongo.MongoClient("mongodb://root:example@localhost:27017/")
+    client = pymongo.MongoClient("mongodb://localhost:27017/")
     db = client["ordinals"]
     collection = db["feedback"]
 
@@ -29,7 +30,8 @@ def load_seed_ordinals() -> list[Ordinal]:
 
 
 def get_feedbacks(user) -> list[Feedback]:
-    client = pymongo.MongoClient("mongodb://root:example@localhost:27017/")
+    # client = pymongo.MongoClient("mongodb://root:example@localhost:27017/")
+    client = pymongo.MongoClient("mongodb://localhost:27017/")
     db = client["ordinals"]
     collection = db["feedback"]
 

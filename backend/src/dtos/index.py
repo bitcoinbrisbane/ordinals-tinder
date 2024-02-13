@@ -7,10 +7,12 @@ class Feedback(BaseModel):
     message: str
     signature: str
     liked: bool
+    time_stamp: int
 
     def to_dict(self):
         return {
             "id": self.id,
             "user": self.user,
-            "liked": self.liked
+            "liked": self.liked,
+            "time_stamp": self.time_stamp
         }

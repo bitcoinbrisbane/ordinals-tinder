@@ -1,3 +1,5 @@
+def train():
+    return True
 
 
 def suggest(address):

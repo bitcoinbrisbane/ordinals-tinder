@@ -208,12 +208,10 @@ export default SwipeableImage;
 ```
 
 ### Installation
-```bash
-yarn install coordinates-tinder
-```
 
 ## Running the Python API
 ```bash
+sudo docker-compose down && docker-compose up
 uvicorn main:app --reload
 ```
 
