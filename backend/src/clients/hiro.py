@@ -1,10 +1,15 @@
 import requests
 import redis
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 def get_ordinal_content(id):
     # get the inscription off its id, eg: b4d12e3941fcab5cba27815d6e855fe9df970913e6b4dfbcb5c2a88564c3d667i0
-    r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+    redis_url = os.getenv('REDIS_URL')
+    r = redis.Redis.from_url(redis_url)
 
     # check if the inscription is in the cache
     content = r.get(id)
@@ -26,7 +31,8 @@ def get_ordinal_content(id):
 
 def get_ordinal_metadata(id):
     # get the metadata off its id, eg: b4d12e3941fcab5cba27815d6e855fe9df970913e6b4dfbcb5c2a88564c3d667i0
-    r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+    redis_url = os.getenv('REDIS_URL')
+    r = redis.Redis.from_url(redis_url)
 
     # check if the metadata is in the cache
     metadata = r.get(id)

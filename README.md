@@ -19,7 +19,7 @@ We will use TensorFlow Recommenders and content based filtering / collaborative 
 
 Collaborative filtering is a technique that uses the preferences of a group of people to make recommendations to other people.  It is based on the idea that people who agree in their evaluations of certain items are likely to have similar tastes for other items.  For example, a collaborative filtering recommendation system for music might make recommendations based on the songs that a user has listened to, liked, or added to a playlist.
 
-Our NFT 1162315496355503 may have the following dimensions:
+Our NFT `1162315496355503` may have the following dimensions:
 
 | NFT | Cost | Scarcity | Genre | Artist |
 |-----|------|----------|-------|--------|
@@ -29,13 +29,14 @@ We can use the following formula to calculate the distance between two NFTs:
 
 Previous users selections can be used to calculate the distance between two NFTs.  The distance can be used to suggest the next NFT to the user.
 
-Eg:
+Eg: Table of user selections
 
-| User | NFT | Liked |
-|------|-----|-------|
-| 1    | 1   | True  |
-| 1    | 2   | False |
-| 1    | 3   | True  |
+| User | NFT 1 | NFT 2 | NFT 3 |
+|------|-------|-------|-------|
+| 1    |  -1   |   1   |   1   |
+| 2    |  -1   |       |       |
+| 3    |  -1   |   1   |       |
+
 
 ```python
 import numpy as np
@@ -43,10 +44,11 @@ import numpy as np
 def euclidean_distance(x, y):
     return np.sqrt(np.sum((x - y) ** 2))
 
-nft1 = np.array([0.5, 0.5, 0.5, 0.5])
-nft2 = np.array([0.5, 0.5, 0.5, 0.5])
+nft1 = np.array([-1, 1, 1])
+nft2 = np.array([-1])
+nft3 = np.array([-1, 1])
 
-euclidean_distance(nft1, nft2)
+euclidean_distance(nft1, nft2, nft3)
 ```
 
 ## User profiles
@@ -106,12 +108,19 @@ Suggest next ordinal
 
 Post feedback
 
-- POST /index
+- POST /
+
 ```json
 {
+  "id": "6abcb215dae6058653f4ba4d717a00fca46ac8c3dea46876057c128f3786f892i0",
+  "user": "bc1paxxeugh54jvrqcwz0hwjlnt4tktuef5jfmfp6tn77x5cdjkrtf3q2lqgh4",
+  "time_stamp": 0,
   "liked": true
 }
 ```
+
+## Machine learning
+
 
 ### Training
 
@@ -123,7 +132,6 @@ To obtain more dimensions, we need to abstract meta data or properties from the 
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-
 ```
 
 ```bash

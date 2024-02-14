@@ -1,14 +1,15 @@
 # Create a fast api
-import random
 from dtos.index import Feedback
 import utils
 import db
+import ml
 import clients.hiro
 
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from fastapi import HTTP_201_CREATED
+from fastapi.responses import Response
+# from fastapi import HTTP_201_CREATED
 
 app = FastAPI()
 
@@ -21,26 +22,8 @@ def root():
 @app.get("/next/{address}")
 def next(address: str):
 
-    print("address", address)
-
-    feedbacks = db.get_feedbacks(address)
-    if len(feedbacks) < 5:
-        # select random ordinals to train
-
-        # load a dictionary of ordinals from the json
-        ordinals = db.load_seed_ordinals()
-
-        # Get random ordinal number
-        i = random.randint(1, 10)
-        ordinal = ordinals[i]
-        return ordinal
-    else:
-        # filter liked ordinals
-        feedbacks = feedbacks.filter(liked=True)
-
-        # select the next ordinal to train
-        ordinal = db.get_next_ordinal(address)
-        return ordinal
+    ordinal = ml.next(address)
+    return ordinal
 
 
 @app.get("/ordinal/{index}")
@@ -55,11 +38,11 @@ def image(index: str):
 def image(index: str):
     image = clients.hiro.get_ordinal_content(index)
     print(image)
-    return image
+    return Response(content=image, media_type="image/webp")
 
 
 @app.post(("/"))
-def set_feedback(feedback: Feedback, status_code=HTTP_201_CREATED):
+def set_feedback(feedback: Feedback):
 
     # validate the signature
     if not utils.verify_message(feedback.user, feedback.signature, feedback.message):
@@ -73,4 +56,4 @@ def set_feedback(feedback: Feedback, status_code=HTTP_201_CREATED):
 
 @app.post("/buy")
 def buy():
-    return {"index": 0}
+    return {"tx": "26482871f33f1051f450f2da9af275794c0b5f1c61ebf35e4467fb42c2813403"}
