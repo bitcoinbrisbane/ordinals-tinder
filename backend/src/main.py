@@ -1,5 +1,7 @@
 # Create a fast api
+import json
 from dtos.index import Feedback
+from dtos.index import Ordinal
 import utils
 import db
 import ml
@@ -9,7 +11,6 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.responses import Response
-# from fastapi import HTTP_201_CREATED
 
 app = FastAPI()
 
@@ -28,10 +29,17 @@ def next(address: str):
 
 @app.get("/ordinal/{index}")
 def image(index: str):
-    ordinal = clients.hiro.get_ordinal_metadata(index)
-    # Return as json
-    jsonable_encoder(ordinal)
-    return JSONResponse(content=ordinal)
+    ordinal_data = clients.hiro.get_ordinal_metadata(index)
+    
+    print(json.dumps(ordinal_data, indent=4, sort_keys=True))
+
+    id = ordinal_data.get("id")
+    number = ordinal_data.get("number")
+    address = ordinal_data.get("address")
+    content_url = f"http://localhost:8000/image/{id}"
+    content_type = ordinal_data.get("content_type")
+
+    return Ordinal(id=id, number=number, address=address, content_url=content_url, content_type=content_type)
 
 
 @app.get("/image/{index}")
@@ -41,7 +49,7 @@ def image(index: str):
     return Response(content=image, media_type="image/webp")
 
 
-@app.post(("/"))
+@app.post("/", status_code=201)
 def set_feedback(feedback: Feedback):
 
     # validate the signature

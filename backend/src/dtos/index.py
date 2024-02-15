@@ -16,3 +16,22 @@ class Feedback(BaseModel):
             "liked": self.liked,
             "time_stamp": self.time_stamp
         }
+
+
+# View model to send to the front end
+class Ordinal(BaseModel):
+    id: str
+    number: int
+    address: str
+    content_url: str
+    content_type: str
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "number": self.number,
+            "address": self.address,
+            "content_url": self.content_url,
+            "content_type": self.content_type
+        }
+    

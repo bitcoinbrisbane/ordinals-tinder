@@ -101,8 +101,6 @@ Suggest next ordinal
   "address": "bc1paxxeugh54jvrqcwz0hwjlnt4tktuef5jfmfp6tn77x5cdjkrtf3q2lqgh4",
   "value": 1000,
   "image": "https://api.example.com/image/1162315496355503",
-  "metadata": {
-  }
 }
 ```
 
