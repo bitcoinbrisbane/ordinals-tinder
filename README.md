@@ -215,11 +215,20 @@ export default SwipeableImage;
 
 ### Installation
 
+
+
 ## Running the Python API
 ```bash
 sudo docker-compose down && docker-compose up
-uvicorn main:app --reload
+cd src && uvicorn main:app --reload
 ```
+
+## Test vectors
+
+Mnemonic: `surprise catch that like damp smoke double grid hundred stand slot winner`
+
+
+
 
 ## References
 

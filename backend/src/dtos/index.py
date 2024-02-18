@@ -8,13 +8,15 @@ class Feedback(BaseModel):
     signature: str
     liked: bool
     time_stamp: int
+    time_spent: int
 
     def to_dict(self):
         return {
             "id": self.id,
             "user": self.user,
             "liked": self.liked,
-            "time_stamp": self.time_stamp
+            "time_stamp": self.time_stamp,
+            "time_spent": self.time_spent
         }
 
 
