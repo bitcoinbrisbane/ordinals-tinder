@@ -1,14 +1,32 @@
 import pymongo
 import json
+import os
 
 from dtos.index import Feedback
 from models.index import Ordinal
 
+load_dotenv()
+
+def get_db():
+    url = os.getenv('MONGO_URL')
+    client = pymongo.MongoClient(url)
+    db = client["ordinals"]
+    return db
+
+
+def get_feedbacks(user) -> list[Feedback]:
+    db = get_db()
+    collection = db["feedback"]
+
+    query = { "user": user }
+
+    feedbacks = collection.find(query)
+
+    return feedbacks
+
 
 def insert_feedback(feedback: Feedback):
-    # client = pymongo.MongoClient("mongodb://root:example@localhost:27017/")
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client["ordinals"]
+    db = get_db()
     collection = db["feedback"]
 
     feedback_dict = feedback.to_dict()
@@ -16,6 +34,35 @@ def insert_feedback(feedback: Feedback):
     result = collection.insert_one(feedback_dict)
     print(f"Inserted feedback with id: {result.inserted_id}")
     return result.inserted_id
+
+
+def get_ordinals() -> list[Ordinal]:
+    db = get_db()
+    collection = db["ordinals"]
+
+    ordinals = collection.find()
+
+    return ordinals
+
+
+def insert_ordinal(ordinal: Ordinal):
+    db = get_db()
+    collection = db["ordinals"]
+
+    ordinal_dict = ordinal.to_dict()
+
+    result = collection.insert_one(ordinal_dict)
+    print(f"Inserted ordinal with id: {result.inserted_id}")
+    return result.inserted_id
+
+
+def seed_ordinals() -> int:
+    ordinals = load_seed_ordinals()
+
+    for ordinal in ordinals:
+        insert_ordinal(ordinal)
+
+    return len(ordinals)
 
 
 def load_seed_ordinals() -> list[Ordinal]:
@@ -28,16 +75,3 @@ def load_seed_ordinals() -> list[Ordinal]:
                     for ordinal in data['ordinals']]
 
     return ordinals
-
-
-def get_feedbacks(user) -> list[Feedback]:
-    # client = pymongo.MongoClient("mongodb://root:example@localhost:27017/")
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client["ordinals"]
-    collection = db["feedback"]
-
-    query = { "user": user }
-
-    feedbacks = collection.find(query)
-
-    return feedbacks

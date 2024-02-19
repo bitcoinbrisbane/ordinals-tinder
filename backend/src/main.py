@@ -1,6 +1,7 @@
 # Create a fast api
 import json
 import os
+from dotenv import load_dotenv
 from dtos.index import Feedback
 from dtos.index import Ordinal
 import utils
@@ -70,6 +71,19 @@ def set_feedback(feedback: Feedback):
     return {"id": inserted_id}
 
 
+@app.put("/seed", status_code=201)
+def seed_ordinals():
+    # seed the ordinals
+    inserted_count = db.seed_ordinals()
+
+    return {"count": inserted_count}
+
+
 @app.post("/buy")
 def buy():
+    return {"tx": "26482871f33f1051f450f2da9af275794c0b5f1c61ebf35e4467fb42c2813403"}
+
+
+@app.post("/sell", status_code=201)
+def sell():
     return {"tx": "26482871f33f1051f450f2da9af275794c0b5f1c61ebf35e4467fb42c2813403"}
