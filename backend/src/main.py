@@ -1,5 +1,6 @@
 # Create a fast api
 import json
+import os
 from dtos.index import Feedback
 from dtos.index import Ordinal
 import utils
@@ -8,9 +9,9 @@ import ml
 import clients.hiro
 
 from fastapi import FastAPI
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 from fastapi.responses import Response
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -18,6 +19,12 @@ app = FastAPI()
 @app.get("/")
 def root():
     return {"message": "Hello World"}
+
+
+# tool to test btc address
+@app.get("/address")
+def root():
+    return utils.generate_bitcoin_address()
 
 
 @app.get("/next/{address}")
@@ -36,7 +43,8 @@ def image(index: str):
     id = ordinal_data.get("id")
     number = ordinal_data.get("number")
     address = ordinal_data.get("address")
-    content_url = f"http://localhost:8000/image/{id}"
+    url = os.getenv('API_URL')
+    content_url = f"{url}/image/{id}"
     content_type = ordinal_data.get("content_type")
 
     return Ordinal(id=id, number=number, address=address, content_url=content_url, content_type=content_type)
