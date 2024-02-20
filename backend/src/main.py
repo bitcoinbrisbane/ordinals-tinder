@@ -1,6 +1,7 @@
 # Create a fast api
 import json
 import os
+import redis
 from dotenv import load_dotenv
 from dtos.index import Feedback
 from dtos.index import Ordinal
@@ -76,6 +77,17 @@ def seed_ordinals():
     # seed the ordinals
     inserted_count = db.seed_ordinals()
 
+    if inserted_count == 0:
+        return {"error": "Ordinals already seeded"}
+    
+
+    # if cache is enabled, update the cache
+    redis_url = os.getenv('REDIS_URL')
+    r = redis.Redis.from_url(redis_url)
+    ordinals = db.get_ordinals()
+    r.set('ordinals', ordinals)
+    
+
     return {"count": inserted_count}
 
 
@@ -85,5 +97,11 @@ def buy():
 
 
 @app.post("/sell", status_code=201)
-def sell():
-    return {"tx": "26482871f33f1051f450f2da9af275794c0b5f1c61ebf35e4467fb42c2813403"}
+def sell(ordinal: Ordinal):
+
+    # validate the signature
+
+    # save the ordinal to the database
+    inserted_id = db.insert_ordinal(ordinal)
+
+    return {"id": inserted_id}
