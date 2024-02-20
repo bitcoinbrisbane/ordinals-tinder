@@ -1,7 +1,7 @@
 import pymongo
 import json
 import os
-
+from dotenv import load_dotenv
 from dtos.index import Feedback
 from models.index import Ordinal
 
