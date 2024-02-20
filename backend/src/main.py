@@ -9,6 +9,7 @@ import utils
 import db
 import collaboration
 import clients.hiro
+import ml
 
 from fastapi import FastAPI
 from fastapi.responses import Response
@@ -101,3 +102,9 @@ def sell(ordinal: Ordinal):
     inserted_id = db.insert_ordinal(ordinal)
 
     return {"id": inserted_id}
+
+
+@app.post("/train")
+def train():
+    ml.train()
+    return {"status": "Training complete"}

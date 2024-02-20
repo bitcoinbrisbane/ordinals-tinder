@@ -53,6 +53,15 @@ def get_ordinals():
     # return list(ordinals)
 
 
+def get_ordinal_by_id() -> Ordinal:
+    db = get_db()
+    collection = db["ordinals"]
+
+    query = {"id": id}
+    ordinal = collection.find(query)
+    return ordinal
+
+
 def insert_ordinal(ordinal: Ordinal):
     db = get_db()
     collection = db["ordinals"]

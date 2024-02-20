@@ -1,12 +1,12 @@
 import random
 import db
-# import redis
 from dotenv import load_dotenv
 from dtos.index import Ordinal
 import pandas as pd
-# import os
+
 
 load_dotenv()
+
 
 def get_feedbacks_as_df() -> pd.DataFrame:
     feedbacks = db.get_feedbacks()
@@ -16,7 +16,7 @@ def get_feedbacks_as_df() -> pd.DataFrame:
 def cast_to_df(feedbacks) -> pd.DataFrame:
     if not feedbacks:
         return pd.DataFrame()
-    
+
     data = {
         'user_id': [],
         'id': [],
@@ -29,7 +29,6 @@ def cast_to_df(feedbacks) -> pd.DataFrame:
         data['id'].append(feedback.get('id'))
         data['time_spent'].append(feedback.get('time_spent'))
         data['liked'].append(feedback.get('liked'))
-
 
     return pd.DataFrame(data)
 
@@ -63,14 +62,11 @@ def next(address) -> Ordinal:
     recommendations = df[(df['user_id'].isin(similar_users)) & (
         df['liked']) & (~df['id'].isin(liked_ordinals))]['id'].unique()
 
-    # print(recommendations)
     recommendations_list = list(recommendations)
     if len(recommendations_list) > 0:
         # Get random ordinal number
         i = random.randint(1, 10)
-
-        # print(ordinals)
-        # ordinal = ordinals[i]
-        # return ordinal
+        recommended = recommendations_list.choice(i)
+        return db.get_ordinal_by_id(recommended.id)
 
     return get_random_ordinal()
