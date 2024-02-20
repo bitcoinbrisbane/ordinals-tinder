@@ -14,12 +14,17 @@ def train():
 
 
 def next(address) -> Ordinal:
-    print("address", address)
+    print(f"Getting next ordianl for user {address}")
 
     redis_url = os.getenv('REDIS_URL')
     r = redis.Redis.from_url(redis_url)
 
-    ordinals = db.load_seed_ordinals()
+    # get ordinals from redis
+    ordinals = r.get('ordinals')
+    if not ordinals:
+        ordinals = db.get_ordinals()
+        r.set('ordinals', ordinals)
+
     feedbacks = db.get_feedbacks(address)
     if not feedbacks:
         # Get random ordinal number
