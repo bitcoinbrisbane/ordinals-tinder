@@ -6,18 +6,22 @@ from dtos.index import Ordinal
 import pandas as pd
 import os
 
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+# from sklearn.model_selection import train_test_split
+# from sklearn.ensemble import RandomForestClassifier
+# from sklearn.metrics import accuracy_score
 
 load_dotenv()
 
 
 def get_feedbacks_as_df() -> pd.DataFrame:
     feedbacks = db.get_feedbacks()
+    return cast_to_df(feedbacks)
+
+
+def cast_to_df(feedbacks):
     if not feedbacks:
         return pd.DataFrame()
-
+    
     data = {
         'user_id': [],
         'id': [],
@@ -33,52 +37,45 @@ def get_feedbacks_as_df() -> pd.DataFrame:
 
     return pd.DataFrame(data)
 
+# def train():
+#     df = get_feedbacks_as_df()
 
-def train():
-    df = get_feedbacks_as_df()
+#     # Convert categorical variables to numerical
+#     df['user_id'] = df['user_id'].astype('category').cat.codes
+#     df['id'] = df['id'].astype('category').cat.codes
 
-    # Convert categorical variables to numerical
-    df['user_id'] = df['user_id'].astype('category').cat.codes
-    df['id'] = df['id'].astype('category').cat.codes
+#     # Prepare features and labels
+#     X = df[['user_id', 'id', 'time_spent']]  # Features
+#     y = df['liked']  # Target variable
 
-    # Prepare features and labels
-    X = df[['user_id', 'id', 'time_spent']]  # Features
-    y = df['liked']  # Target variable
+#     # Split the dataset into training and testing sets
+#     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
-    # Split the dataset into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+#     # Initialize and train the classifier
+#     clf = RandomForestClassifier(random_state=42)
+#     clf.fit(X_train, y_train)
 
-    # Initialize and train the classifier
-    clf = RandomForestClassifier(random_state=42)
-    clf.fit(X_train, y_train)
+#     # Example: Predicting for a specific user for images not in their viewed list
+#     user_id = 0  # Assuming numeric user_id after conversion
+#     images_to_recommend = np.setdiff1d(np.unique(df['image_id']), X_test['image_id'])
 
-    # Example: Predicting for a specific user for images not in their viewed list
-    user_id = 0  # Assuming numeric user_id after conversion
-    images_to_recommend = np.setdiff1d(np.unique(df['image_id']), X_test['image_id'])
+#     # Create a DataFrame for predictions
+#     predict_df = pd.DataFrame({'user_id': user_id, 'image_id': images_to_recommend, 'view_time_seconds': [100] * len(images_to_recommend)})
 
-    # Create a DataFrame for predictions
-    predict_df = pd.DataFrame({'user_id': user_id, 'image_id': images_to_recommend, 'view_time_seconds': [100] * len(images_to_recommend)})
+#     # Predict probabilities
+#     probabilities = clf.predict_proba(predict_df)[:, 1]  # Get probability for the 'liked' class
 
-    # Predict probabilities
-    probabilities = clf.predict_proba(predict_df)[:, 1]  # Get probability for the 'liked' class
-
-    # Recommend images with the highest 'like' probability
-    recommendations = images_to_recommend[np.argsort(-probabilities)]
-    print(f"Recommended images for user {user_id}: {recommendations}")
-
+#     # Recommend images with the highest 'like' probability
+#     recommendations = images_to_recommend[np.argsort(-probabilities)]
+#     print(f"Recommended images for user {user_id}: {recommendations}")
 
 
 def next(address) -> Ordinal:
-
-    # train()
-
     print(f"Getting next ordinal for user {address}")
 
     # redis_url = os.getenv('REDIS_URL')
     # r = redis.Redis.from_url(redis_url)
     ordinals = db.get_ordinals()
-
-    print(type(ordinals))
 
     # # get ordinals from redis
     # ordinals = r.get('ordinals')

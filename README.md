@@ -112,13 +112,14 @@ Post feedback
 {
   "id": "6abcb215dae6058653f4ba4d717a00fca46ac8c3dea46876057c128f3786f892i0",
   "user": "bc1paxxeugh54jvrqcwz0hwjlnt4tktuef5jfmfp6tn77x5cdjkrtf3q2lqgh4",
+  "time_viewed": 0,
   "time_stamp": 0,
   "liked": true
 }
 ```
 
 ## Machine learning
-
+TODO:
 
 ### Training
 
@@ -131,6 +132,8 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+Not required for this POC
 
 ```bash
 python train.py
