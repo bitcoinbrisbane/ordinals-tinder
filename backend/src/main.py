@@ -7,7 +7,7 @@ from dtos.index import Feedback
 from dtos.index import Ordinal
 import utils
 import db
-import ml
+import collaboration
 import clients.hiro
 
 from fastapi import FastAPI
@@ -31,8 +31,7 @@ def root():
 
 @app.get("/next/{address}")
 def next(address: str):
-
-    ordinal = ml.next(address)
+    ordinal = collaboration.next(address)
     return ordinal
 
 

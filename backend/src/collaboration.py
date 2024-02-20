@@ -25,17 +25,19 @@ def cast_to_df(feedbacks) -> pd.DataFrame:
     }
 
     for feedback in feedbacks:
-        data['user_id'].append(feedback.user)
-        data['id'].append(feedback.id)
-        data['time_spent'].append(feedback.time_spent)
-        data['liked'].append(feedback.liked)
+        data['user_id'].append(feedback.get('user'))
+        data['id'].append(feedback.get('id'))
+        data['time_spent'].append(feedback.get('time_spent'))
+        data['liked'].append(feedback.get('liked'))
+
 
     return pd.DataFrame(data)
 
 
 def get_random_ordinal() -> Ordinal:
     ordinals = db.get_ordinals()
-    return random.choice(ordinals)
+    ordinals_list = list(ordinals)
+    return random.choice(ordinals_list)
 
 
 def next(address) -> Ordinal:
@@ -61,7 +63,7 @@ def next(address) -> Ordinal:
     recommendations = df[(df['user_id'].isin(similar_users)) & (
         df['liked']) & (~df['id'].isin(liked_ordinals))]['id'].unique()
 
-    print(recommendations)
+    # print(recommendations)
     recommendations_list = list(recommendations)
     if len(recommendations_list) > 0:
         # Get random ordinal number

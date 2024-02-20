@@ -4,8 +4,8 @@ from pydantic import BaseModel
 class Feedback(BaseModel):
     id: str
     user: str
-    message: str
-    signature: str
+    # message: str
+    # signature: str
     liked: bool
     time_stamp: int
     time_spent: int
