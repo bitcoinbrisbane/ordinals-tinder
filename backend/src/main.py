@@ -39,7 +39,7 @@ def next(address: str):
 @app.get("/ordinal/{index}")
 def image(index: str):
     ordinal_data = clients.hiro.get_ordinal_metadata(index)
-    
+
     print(json.dumps(ordinal_data, indent=4, sort_keys=True))
 
     id = ordinal_data.get("id")
@@ -75,20 +75,17 @@ def set_feedback(feedback: Feedback):
 @app.put("/seed", status_code=201)
 def seed_ordinals():
     # seed the ordinals
-    inserted_count = db.seed_ordinals()
-
-    if inserted_count == 0:
-        return {"error": "Ordinals already seeded"}
-    
+    ordinals = db.seed_ordinals()
 
     # if cache is enabled, update the cache
+    print("Updating cache")
     redis_url = os.getenv('REDIS_URL')
     r = redis.Redis.from_url(redis_url)
-    ordinals = db.get_ordinals()
-    r.set('ordinals', ordinals)
-    
 
-    return {"count": inserted_count}
+    ordinals_json = json.dumps(ordinals, default=lambda o: o.__dict__)
+    r.set('ordinals', ordinals_json)
+
+    return {"ordinals": ordinals}
 
 
 @app.post("/buy")

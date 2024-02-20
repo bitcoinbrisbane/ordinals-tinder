@@ -225,7 +225,9 @@ cd src && uvicorn main:app --reload
 
 ## Test vectors
 
-Mnemonic: `surprise catch that like damp smoke double grid hundred stand slot winner`
+Private key `ce63305ba6f8ca504c5538a23a37a397aa5d9b0db70e0cad5d4c07d265334d92`
+Bech32 Address: `bc1qq225r5jrgcn5hemrgxchwy0ugkp54yanaassuekv7`
+Public key: `049b3f704fda0906c2ca1b2ab4f6ad50ffa99b0109f8e596fe1ea4a32a55ef2d0868fcf5ccea7906a44a8d8a539dadb84206e3a972e8d84be960d0cf24b270e0b8`
 
 
 
