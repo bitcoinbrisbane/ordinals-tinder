@@ -1,11 +1,29 @@
 from pydantic import BaseModel
 
 
+class FeedbackDTO(BaseModel):
+    id: str
+    user: str
+    message: str
+    signature: str
+    liked: bool
+    time_stamp: int
+    time_spent: int
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user": self.user,
+            "liked": self.liked,
+            "time_stamp": self.time_stamp,
+            "time_spent": self.time_spent
+        }
+
+
 class Feedback(BaseModel):
     id: str
     user: str
-    # message: str
-    # signature: str
+
     liked: bool
     time_stamp: int
     time_spent: int
@@ -36,4 +54,3 @@ class Ordinal(BaseModel):
             "content_url": self.content_url,
             "content_type": self.content_type
         }
-    

@@ -11,6 +11,7 @@ import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Embedding, Dot, Flatten, Dense
 from tensorflow.keras.optimizers import Adam
+from sklearn.preprocessing import LabelEncoder
 
 load_dotenv()
 
@@ -44,6 +45,8 @@ def cast_to_df(feedbacks) -> pd.DataFrame:
 
 def train():
     df = get_feedbacks_as_df()
+    label_encoder = LabelEncoder()
+    df['user_id_encoded'] = label_encoder.fit_transform(df['user_id'])
 
     # Assuming user_id and id start from 1
     num_users = 3 # df['user_id'].value_counts()
@@ -74,10 +77,10 @@ def train():
 
 
     # Train the model
-    history = model.fit([train.user_id, train.id], train.liked, epochs=10, validation_split=0.1)
+    history = model.fit([train.user_id_encoded, train.id], train.liked, epochs=10, validation_split=0.1)
     print(history)
 
-    predictions = model.predict([test.user_id, test.id])
+    predictions = model.predict([test.user_id_encoded, test.id])
     print(predictions)
 
 

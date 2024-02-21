@@ -221,6 +221,7 @@ export default SwipeableImage;
 
 
 ## Running the Python API
+
 ```bash
 sudo docker-compose down && docker-compose up
 cd src && uvicorn main:app --reload
