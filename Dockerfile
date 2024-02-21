@@ -4,7 +4,8 @@
 # CMD mongoimport --host mongodb --db reach-engine --collection Ordinals --type json --file /init.json --jsonArray
 
 FROM python:3.10
-WORKDIR /root/ordinals-tinder/backend/src
-COPY . .
-RUN pip install fastapi uvicorn
+WORKDIR /code
+COPY ./backend/requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY ./backend/src /code
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

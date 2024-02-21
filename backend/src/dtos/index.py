@@ -1,11 +1,9 @@
 from pydantic import BaseModel
 
 
-class FeedbackDTO(BaseModel):
+class Feedback(BaseModel):
     id: str
     user: str
-    message: str
-    signature: str
     liked: bool
     time_stamp: int
     time_spent: int
@@ -20,19 +18,17 @@ class FeedbackDTO(BaseModel):
         }
 
 
-class Feedback(BaseModel):
-    id: str
-    user: str
-
-    liked: bool
-    time_stamp: int
-    time_spent: int
+class FeedbackDTO(Feedback):
+    message: str
+    signature: str
 
     def to_dict(self):
         return {
             "id": self.id,
             "user": self.user,
             "liked": self.liked,
+            "message": self.message,
+            "signature": self.signature,
             "time_stamp": self.time_stamp,
             "time_spent": self.time_spent
         }

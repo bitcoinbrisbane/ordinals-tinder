@@ -218,7 +218,10 @@ export default SwipeableImage;
 
 ### Installation
 
-
+```bash
+docker build -t ordinals .
+docker run -d -p 8000:8000 ordinals
+```
 
 ## Running the Python API
 

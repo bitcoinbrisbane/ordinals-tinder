@@ -92,13 +92,6 @@ def next(address) -> Ordinal:
     # r = redis.Redis.from_url(redis_url)
     ordinals = db.get_ordinals()
 
-    # # get ordinals from redis
-    # ordinals = r.get('ordinals')
-    # if not ordinals:
-    #     ordinals = db.get_ordinals()
-    #     json_ordinals = json.dumps(ordinals)
-    #     r.set('ordinals', json_ordinals)
-
     df = get_feedbacks_as_df()
 
     # Find images liked by the target user
@@ -123,11 +116,4 @@ def next(address) -> Ordinal:
         ordinal = ordinals[i]
         return ordinal
 
-    # if len(recommendations) > 0:
-    #     ordinal = ordinals[recommendations[0]]
-    #     return ordinal
 
-    # # Get random ordinal number
-    # i = random.randint(1, 10)
-    # ordinal = ordinals[0]
-    # return ordinal
