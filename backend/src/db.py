@@ -1,11 +1,12 @@
 import pymongo
 import json
 import os
-
+from dotenv import load_dotenv
 from dtos.index import Feedback
 from models.index import Ordinal
 
 load_dotenv()
+
 
 def get_db():
     url = os.getenv('MONGO_URL')
@@ -14,18 +15,25 @@ def get_db():
     return db
 
 
-def get_feedbacks(user) -> list[Feedback]:
+def get_feedbacks():
     db = get_db()
     collection = db["feedback"]
-
-    query = { "user": user }
-
-    feedbacks = collection.find(query)
-
+    feedbacks = collection.find()
     return feedbacks
 
 
-def insert_feedback(feedback: Feedback):
+def get_user_feedbacks(user):
+    db = get_db()
+    collection = db["feedback"]
+
+    query = {"user": user}
+
+    feedbacks = collection.find(query)
+    return feedbacks
+    # return list(feedbacks)
+
+
+def insert_feedback(feedback: Feedback) -> int:
     db = get_db()
     collection = db["feedback"]
 
@@ -36,13 +44,22 @@ def insert_feedback(feedback: Feedback):
     return result.inserted_id
 
 
-def get_ordinals() -> list[Ordinal]:
+def get_ordinals():
     db = get_db()
     collection = db["ordinals"]
 
     ordinals = collection.find()
-
     return ordinals
+    # return list(ordinals)
+
+
+def get_ordinal_by_id() -> Ordinal:
+    db = get_db()
+    collection = db["ordinals"]
+
+    query = {"id": id}
+    ordinal = collection.find(query)
+    return ordinal
 
 
 def insert_ordinal(ordinal: Ordinal):
@@ -56,13 +73,13 @@ def insert_ordinal(ordinal: Ordinal):
     return result.inserted_id
 
 
-def seed_ordinals() -> int:
+def seed_ordinals():
     ordinals = load_seed_ordinals()
 
     for ordinal in ordinals:
         insert_ordinal(ordinal)
 
-    return len(ordinals)
+    return ordinals
 
 
 def load_seed_ordinals() -> list[Ordinal]:

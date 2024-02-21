@@ -1,13 +1,15 @@
 # Create a fast api
 import json
 import os
+import redis
 from dotenv import load_dotenv
 from dtos.index import Feedback
 from dtos.index import Ordinal
 import utils
 import db
-import ml
+import collaboration
 import clients.hiro
+import ml
 
 from fastapi import FastAPI
 from fastapi.responses import Response
@@ -30,15 +32,14 @@ def root():
 
 @app.get("/next/{address}")
 def next(address: str):
-
-    ordinal = ml.next(address)
+    ordinal = collaboration.next(address)
     return ordinal
 
 
 @app.get("/ordinal/{index}")
 def image(index: str):
     ordinal_data = clients.hiro.get_ordinal_metadata(index)
-    
+
     print(json.dumps(ordinal_data, indent=4, sort_keys=True))
 
     id = ordinal_data.get("id")
@@ -74,9 +75,17 @@ def set_feedback(feedback: Feedback):
 @app.put("/seed", status_code=201)
 def seed_ordinals():
     # seed the ordinals
-    inserted_count = db.seed_ordinals()
+    ordinals = db.seed_ordinals()
 
-    return {"count": inserted_count}
+    # if cache is enabled, update the cache
+    print("Updating cache")
+    redis_url = os.getenv('REDIS_URL')
+    r = redis.Redis.from_url(redis_url)
+
+    ordinals_json = json.dumps(ordinals, default=lambda o: o.__dict__)
+    r.set('ordinals', ordinals_json)
+
+    return {"ordinals": ordinals}
 
 
 @app.post("/buy")
@@ -85,5 +94,21 @@ def buy():
 
 
 @app.post("/sell", status_code=201)
-def sell():
-    return {"tx": "26482871f33f1051f450f2da9af275794c0b5f1c61ebf35e4467fb42c2813403"}
+def sell(ordinal: Ordinal):
+
+    # validate the signature
+
+    # save the ordinal to the database
+    inserted_id = db.insert_ordinal(ordinal)
+
+    return {"id": inserted_id}
+
+
+@app.post("/train")
+def train():
+    ml.train()
+    return {"status": "Training complete"}
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
