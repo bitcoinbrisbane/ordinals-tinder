@@ -123,6 +123,12 @@ TODO:
 
 ### Training
 
+We will seed the mongo database with some NFTs and user profiles.  We will then use the data to train a model.
+
+```bash
+python seed.py
+```
+
 To obtain more dimensions, we need to abstract meta data or properties from the NFT.  This could be done by hand, or by using a machine learning model to extract the properties.
 
 
@@ -135,9 +141,6 @@ pip install -r requirements.txt
 
 Not required for this POC
 
-```bash
-python train.py
-```
 
 ```python
 import tensorflow as tf
@@ -218,12 +221,24 @@ export default SwipeableImage;
 
 ### Installation
 
+To run the application via docker, first use docker-compose to start the database & cache and then run the application.
+
+```bash
+docker-compose up
+```
+
+Not run the api.
+
 ```bash
 docker build -t ordinals .
 docker run -d -p 8000:8000 ordinals
 ```
 
+It should be running as http://localhost:8000/docs
+
 ## Running the Python API
+
+To run as a python application, first start the database and cache and then run the application.
 
 ```bash
 sudo docker-compose down && docker-compose up
@@ -235,6 +250,7 @@ cd src && uvicorn main:app --reload
 Private key `ce63305ba6f8ca504c5538a23a37a397aa5d9b0db70e0cad5d4c07d265334d92`
 Bech32 Address: `bc1qq225r5jrgcn5hemrgxchwy0ugkp54yanaassuekv7`
 Public key: `049b3f704fda0906c2ca1b2ab4f6ad50ffa99b0109f8e596fe1ea4a32a55ef2d0868fcf5ccea7906a44a8d8a539dadb84206e3a972e8d84be960d0cf24b270e0b8`
+
 
 
 
