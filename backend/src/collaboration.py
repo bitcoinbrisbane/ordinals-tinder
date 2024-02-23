@@ -33,14 +33,6 @@ def cast_to_df(feedbacks) -> pd.DataFrame:
     return pd.DataFrame(data)
 
 
-def get_random_ordinal() -> Ordinal:
-    # try:
-    ordinal = db.get_random_ordinal()
-    return ordinal
-    # except:
-    #     return None
-
-
 def next(address) -> Ordinal:
     print(f"Getting next ordinal for user {address}")
 
@@ -80,4 +72,4 @@ def next(address) -> Ordinal:
     # if len(ordinals_list) > 0:
     #     return ordinals_list[0]
 
-    return get_random_ordinal()
+    return db.get_random_ordinal()

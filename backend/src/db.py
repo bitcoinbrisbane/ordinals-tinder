@@ -8,6 +8,7 @@ from models.index import Ordinal
 
 load_dotenv()
 
+
 def get_db():
     url = os.getenv('MONGO_URL')
     client = pymongo.MongoClient(url)
@@ -55,12 +56,13 @@ def get_ordinals():
     return ordinals
 
 
-def get_ordinal_by_id():
+def get_ordinal_by_id() -> Ordinal:
     collection = get_ordinals_collection()
 
     query = {"id": id}
-    ordinal = collection.find(query)
-    return ordinal
+    document = collection.find(query)
+
+    return Ordinal(**document)
 
 
 def get_random_ordinal() -> Ordinal:
@@ -90,7 +92,7 @@ def insert_ordinal(ordinal: Ordinal) -> str:
     return result.inserted_id
 
 
-def seed_ordinals():
+def seed_ordinals() -> list[Ordinal]:
     ordinals = load_seed_ordinals()
 
     for ordinal in ordinals:
@@ -103,9 +105,17 @@ def load_seed_ordinals() -> list[Ordinal]:
     # Opening JSON file
     json_file_path = './data/seed.json'
 
-    with open(json_file_path, 'r') as file:
-        data = json.load(file)  # Load the JSON data from the file
-        ordinals = [Ordinal(ordinal['id'], ordinal['number'], ordinal['address'], ordinal['value'], ordinal['content_type'], ordinal['sat_rarity'])
-                    for ordinal in data['ordinals']]
-
-    return ordinals
+    try:
+        with open(json_file_path, 'r') as file:
+            ordinals_data = json.load(file)
+            ordinals_list = [Ordinal(**ordinal_data) for ordinal_data in ordinals_data]
+            return ordinals_list
+    except FileNotFoundError:
+        print("The file was not found.")
+        return []
+    except json.JSONDecodeError:
+        print("Error decoding JSON.")
+        return []
+    # except ValidationError as e:
+    #     print(f"Validation error while parsing images: {e}")
+    #     return []

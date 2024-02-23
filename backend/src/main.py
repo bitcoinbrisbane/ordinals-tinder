@@ -21,7 +21,7 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello Ordinals World!"}
 
 
 # tool to test btc address
@@ -32,17 +32,11 @@ def root():
 
 @app.get("/next/{address}")
 def next(address: str):
-    ordinal_cursor = collaboration.next(address)
-    # print(ordinal_doc)
-    print("controller response")
-    print(type(ordinal_cursor))
-    # print(ordinal_doc[0])
-
     try:
-        ordinal = next(ordinal_cursor)
+        ordinal = collaboration.next(address)
         return ordinal
     except:
-        raise HTTPException(status_code=404, detail="No ordinal found.")
+        raise HTTPException()
 
 
 
