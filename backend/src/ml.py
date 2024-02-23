@@ -1,7 +1,7 @@
 import random
 import db
 from dotenv import load_dotenv
-from dtos.index import Ordinal
+from models.index import Ordinal
 
 import pandas as pd
 import numpy as np

@@ -69,7 +69,6 @@ For this POC we will only use current balance as a dimension.
 
 - Python FastAPI for the API
 - React for the front end
-- Tensorflow for the machine learning
 - MongoDB for the database
 - Redis if required for caching
 
@@ -134,6 +133,7 @@ To obtain more dimensions, we need to abstract meta data or properties from the 
 
 ```bash
 # Create virtual environment
+cd backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt

@@ -1,10 +1,11 @@
 # Create a fast api
+from http.client import HTTPException
 import json
 import os
 import redis
 from dotenv import load_dotenv
-from dtos.index import Feedback
-from dtos.index import Ordinal
+from models.index import Feedback
+from models.index import Ordinal
 import utils
 import db
 import collaboration
@@ -15,7 +16,6 @@ from fastapi import FastAPI
 from fastapi.responses import Response
 
 load_dotenv()
-
 app = FastAPI()
 
 
@@ -32,12 +32,22 @@ def root():
 
 @app.get("/next/{address}")
 def next(address: str):
-    ordinal = collaboration.next(address)
-    return ordinal
+    ordinal_cursor = collaboration.next(address)
+    # print(ordinal_doc)
+    print("controller response")
+    print(type(ordinal_cursor))
+    # print(ordinal_doc[0])
+
+    try:
+        ordinal = next(ordinal_cursor)
+        return ordinal
+    except:
+        raise HTTPException(status_code=404, detail="No ordinal found.")
+
 
 
 @app.get("/ordinal/{index}")
-def image(index: str):
+def ordinal(index: str):
     ordinal_data = clients.hiro.get_ordinal_metadata(index)
 
     print(json.dumps(ordinal_data, indent=4, sort_keys=True))
@@ -55,7 +65,6 @@ def image(index: str):
 @app.get("/image/{index}")
 def image(index: str):
     image = clients.hiro.get_ordinal_content(index)
-    print(image)
     return Response(content=image, media_type="image/webp")
 
 
