@@ -36,8 +36,7 @@ def next(address: str):
         ordinal = collaboration.next(address)
         return ordinal
     except:
-        raise HTTPException()
-
+        raise HTTPException(status_code=500, detail="No ordinals found")
 
 
 @app.get("/ordinal/{index}")
@@ -99,7 +98,10 @@ def buy():
 @app.post("/sell", status_code=201)
 def sell(ordinal: Ordinal):
 
-    # validate the signature
+    valid = utils.verify_message(
+        ordinal.address, ordinal.signature, ordinal.message)
+    if not valid:
+        return HTTPException(status_code=403, detail="Invalid signature")
 
     # save the ordinal to the database
     inserted_id = db.insert_ordinal(ordinal)
