@@ -32,8 +32,6 @@ def verify_message(address, signature, message):
     signature = bytes.fromhex(signature)
     verify_message = public_key.verify(signature, message_hash)
 
-    print(verify_message)
-
     return ecdsa_verify(message, signature, address)
 
 

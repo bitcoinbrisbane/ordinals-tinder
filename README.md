@@ -111,9 +111,11 @@ Post feedback
 {
   "id": "6abcb215dae6058653f4ba4d717a00fca46ac8c3dea46876057c128f3786f892i0",
   "user": "bc1paxxeugh54jvrqcwz0hwjlnt4tktuef5jfmfp6tn77x5cdjkrtf3q2lqgh4",
-  "time_viewed": 0,
-  "time_stamp": 0,
-  "liked": true
+  "liked": true,
+  "message": "e7a6259b-e1b0-4e1e-a3f2-80fc0f87695e",
+  "signature": "3045022100d8f8b4c7b9a8c6b1d2f0f2d3c0b5f1c61ebf35e4467fb42c2813403",
+  "time_viewed": 1000,
+  "time_stamp": 1708735333
 }
 ```
 

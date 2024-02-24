@@ -6,15 +6,16 @@ import db
 
 load_dotenv()
 
-
+# OrdinalsRepository is a class that interacts with the database to retrieve and store ordinals
+# Return the python object representation of the ordinals
 class OrdinalsRepository:
     def __init__(self):
         self.db = db.get_db()
         self.collection = self.db["ordinals"]
 
-#     def get_ordinals(self):
-#         ordinals = self.collection.find()
-#         return ordinals
+    def get_ordinals(self) -> list[Ordinal]:
+        ordinals_doc = self.collection.find()
+        ordinals = [Ordinal(**ordinal) for ordinal in ordinals_doc]
 
 #     def get_ordinal_by_id(self, id):
 #         query = {"id": id}

@@ -4,7 +4,7 @@ import json
 import os
 import redis
 from dotenv import load_dotenv
-from models.index import Feedback
+from models.index import Feedback, FeedbackDTO
 from models.index import Ordinal
 import utils
 import db
@@ -30,7 +30,7 @@ def root():
     return utils.generate_bitcoin_address()
 
 
-@app.get("/next/{address}")
+@app.get("/ordinal/next/{address}")
 def next(address: str):
     try:
         ordinal = collaboration.next(address)
@@ -61,12 +61,14 @@ def image(index: str):
     return Response(content=image, media_type="image/webp")
 
 
-@app.post("/", status_code=201)
-def set_feedback(feedback: Feedback):
+@app.post("/feedback", status_code=201)
+def set_feedback(feedback: FeedbackDTO):
 
     # validate the signature
-    if not utils.verify_message(feedback.user, feedback.signature, feedback.message):
-        return {"error": "Invalid signature"}
+    # if not utils.verify_message(feedback.user, feedback.signature, feedback.message):
+    #     return {"error": "Invalid signature"}
+    
+    feedback = Feedback(user=feedback.user, message=feedback.message, signature=feedback.signature)
 
     # save the feedback to the database
     inserted_id = db.insert_feedback(feedback)
@@ -90,12 +92,12 @@ def seed_ordinals():
     return {"ordinals": ordinals}
 
 
-@app.post("/buy")
+@app.post("/ordinal/buy")
 def buy():
     return {"tx": "26482871f33f1051f450f2da9af275794c0b5f1c61ebf35e4467fb42c2813403"}
 
 
-@app.post("/sell", status_code=201)
+@app.post("/ordinal/sell", status_code=201)
 def sell(ordinal: Ordinal):
 
     valid = utils.verify_message(

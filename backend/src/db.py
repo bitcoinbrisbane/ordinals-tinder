@@ -16,6 +16,12 @@ def get_db():
     return db
 
 
+def get_feedback_collection():
+    db = get_db()
+    collection = db["feedback"]
+    return collection
+
+
 def get_ordinals_collection():
     db = get_db()
     collection = db["ordinals"]
@@ -30,8 +36,7 @@ def get_feedbacks():
 
 
 def get_user_feedbacks(user):
-    db = get_db()
-    collection = db["feedback"]
+    collection = get_feedback_collection()
 
     query = {"user": user}
 
@@ -40,8 +45,7 @@ def get_user_feedbacks(user):
 
 
 def insert_feedback(feedback: Feedback) -> int:
-    db = get_db()
-    collection = db["feedback"]
+    collection = get_feedback_collection()
 
     feedback_dict = feedback.to_dict()
 
@@ -108,7 +112,8 @@ def load_seed_ordinals() -> list[Ordinal]:
     try:
         with open(json_file_path, 'r') as file:
             ordinals_data = json.load(file)
-            ordinals_list = [Ordinal(**ordinal_data) for ordinal_data in ordinals_data]
+            ordinals_list = [Ordinal(**ordinal_data)
+                             for ordinal_data in ordinals_data]
             return ordinals_list
     except FileNotFoundError:
         print("The file was not found.")
@@ -116,6 +121,3 @@ def load_seed_ordinals() -> list[Ordinal]:
     except json.JSONDecodeError:
         print("Error decoding JSON.")
         return []
-    # except ValidationError as e:
-    #     print(f"Validation error while parsing images: {e}")
-    #     return []
