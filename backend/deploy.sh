@@ -1,6 +1,7 @@
 #!/bin/bash
-# docker stop ordinals
-# docker rm ordinals
+docker stop $1
+docker rm $1
+
 git stash
 git checkout main
 git pull
