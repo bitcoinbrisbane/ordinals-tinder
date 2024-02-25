@@ -67,8 +67,9 @@ def set_feedback(feedback: FeedbackDTO):
     # validate the signature
     # if not utils.verify_message(feedback.user, feedback.signature, feedback.message):
     #     return {"error": "Invalid signature"}
-    
-    feedback = Feedback(user=feedback.user, message=feedback.message, signature=feedback.signature)
+
+    feedback = Feedback(id=feedback.id, user=feedback.user, liked=feedback.liked,
+                        time_stamp=feedback.time_stamp, time_spent=feedback.time_spent)
 
     # save the feedback to the database
     inserted_id = db.insert_feedback(feedback)
