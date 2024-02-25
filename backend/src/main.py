@@ -65,8 +65,8 @@ def image(index: str):
 def set_feedback(feedback: FeedbackDTO):
 
     # validate the signature
-    # if not utils.verify_message(feedback.user, feedback.signature, feedback.message):
-    #     return {"error": "Invalid signature"}
+    if not utils.verify_message(feedback.user, feedback.signature, feedback.message):
+        return {"error": "Invalid signature"}
 
     feedback = Feedback(id=feedback.id, user=feedback.user, liked=feedback.liked,
                         time_stamp=feedback.time_stamp, time_spent=feedback.time_spent)
@@ -74,7 +74,7 @@ def set_feedback(feedback: FeedbackDTO):
     # save the feedback to the database
     inserted_id = db.insert_feedback(feedback)
 
-    return {"id": inserted_id}
+    return {"id": str(inserted_id)}
 
 
 @app.put("/seed", status_code=201)

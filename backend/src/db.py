@@ -44,13 +44,12 @@ def get_user_feedbacks(user):
     return feedbacks
 
 
-def insert_feedback(feedback: Feedback) -> int:
+def insert_feedback(feedback: Feedback):
     collection = get_feedback_collection()
 
     feedback_dict = feedback.to_dict()
 
     result = collection.insert_one(feedback_dict)
-    print(f"Inserted feedback with id: {result.inserted_id}")
     return result.inserted_id
 
 
