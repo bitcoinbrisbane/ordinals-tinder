@@ -4,7 +4,7 @@ import collaboration
 import db
 import random
 
-from dtos.index import Feedback
+from models.index import Feedback
 
 users = ["bc1qq2ye3ljqvpz6wgp8r24ede3jhmwxzf27fas2kheyt",
          "bc1qq2dn8wgnynadcgesjnd75eqgmdmzuuqpt3sc36zqy", 
