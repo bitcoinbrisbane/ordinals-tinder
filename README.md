@@ -69,7 +69,6 @@ For this POC we will only use current balance as a dimension.
 
 - Python FastAPI for the API
 - React for the front end
-- Tensorflow for the machine learning
 - MongoDB for the database
 - Redis if required for caching
 
@@ -112,9 +111,11 @@ Post feedback
 {
   "id": "6abcb215dae6058653f4ba4d717a00fca46ac8c3dea46876057c128f3786f892i0",
   "user": "bc1paxxeugh54jvrqcwz0hwjlnt4tktuef5jfmfp6tn77x5cdjkrtf3q2lqgh4",
-  "time_viewed": 0,
-  "time_stamp": 0,
-  "liked": true
+  "liked": true,
+  "message": "e7a6259b-e1b0-4e1e-a3f2-80fc0f87695e",
+  "signature": "3045022100d8f8b4c7b9a8c6b1d2f0f2d3c0b5f1c61ebf35e4467fb42c2813403",
+  "time_viewed": 1000,
+  "time_stamp": 1708735333
 }
 ```
 
@@ -123,11 +124,18 @@ TODO:
 
 ### Training
 
+We will seed the mongo database with some NFTs and user profiles.  We will then use the data to train a model.
+
+```bash
+python seed.py
+```
+
 To obtain more dimensions, we need to abstract meta data or properties from the NFT.  This could be done by hand, or by using a machine learning model to extract the properties.
 
 
 ```bash
 # Create virtual environment
+cd backend
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -135,9 +143,6 @@ pip install -r requirements.txt
 
 Not required for this POC
 
-```bash
-python train.py
-```
 
 ```python
 import tensorflow as tf
@@ -218,12 +223,24 @@ export default SwipeableImage;
 
 ### Installation
 
+To run the application via docker, first use docker-compose to start the database & cache and then run the application.
+
+```bash
+docker-compose up
+```
+
+Not run the api.
+
 ```bash
 docker build -t ordinals .
 docker run -d -p 8000:8000 ordinals
 ```
 
+It should be running as http://localhost:8000/docs
+
 ## Running the Python API
+
+To run as a python application, first start the database and cache and then run the application.
 
 ```bash
 sudo docker-compose down && docker-compose up
@@ -235,6 +252,7 @@ cd src && uvicorn main:app --reload
 Private key `ce63305ba6f8ca504c5538a23a37a397aa5d9b0db70e0cad5d4c07d265334d92`
 Bech32 Address: `bc1qq225r5jrgcn5hemrgxchwy0ugkp54yanaassuekv7`
 Public key: `049b3f704fda0906c2ca1b2ab4f6ad50ffa99b0109f8e596fe1ea4a32a55ef2d0868fcf5ccea7906a44a8d8a539dadb84206e3a972e8d84be960d0cf24b270e0b8`
+
 
 
 
