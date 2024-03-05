@@ -5,11 +5,12 @@ function Test() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios.get("http://128.199.176.152/address")
-      .then(response => {
+    axios
+      .get("http://localhost:8000/address")
+      .then((response) => {
         setData(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);

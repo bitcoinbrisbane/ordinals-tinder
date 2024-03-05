@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import tw from 'twin.macro';
-import { useSwipeable } from 'react-swipeable';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import tw from "twin.macro";
+import { useSwipeable } from "react-swipeable";
 
 import { ReactComponent as Up } from "../images/up.svg";
 import { ReactComponent as Down } from "../images/down.svg";
@@ -26,101 +26,111 @@ const UpButton = tw.svg(Up)`w-[40px] h-[40px] z-50`;
 const DownButton = tw.svg(Down)`w-[40px] h-[40px] z-50`;
 const PurchaseButton = tw.svg(Purchase)`w-[50px] h-[50px] z-50`;
 
-const ButtonNo = tw.button`bg-transparent border-[#FF6F61] hover:border-[#dd3333] duration-300 rounded-full border-[1px] p-[15px] justify-center items-center`; 
-const ButtonYes = tw.button`bg-transparent border-[#93c572] hover:border-[#61b744] duration-300 rounded-full border-[1px] p-[15px] justify-center items-center`; 
+const ButtonNo = tw.button`bg-transparent border-[#FF6F61] hover:border-[#dd3333] duration-300 rounded-full border-[1px] p-[15px] justify-center items-center`;
+const ButtonYes = tw.button`bg-transparent border-[#93c572] hover:border-[#61b744] duration-300 rounded-full border-[1px] p-[15px] justify-center items-center`;
 const ButtonPurchase = tw.button`bg-transparent border-[#FF6F61] hover:border-[#dd3333] duration-300 rounded-[75px] border-[1px] p-[15px] px-[60px] justify-center items-center`;
 
 function Swipe({ imageUrl, onSwipe }) {
-    const [startTime, setStartTime] = useState(0);
-    const [duration, setDuration] = useState(0);
-    const [showDescription, setShowDescription] = useState(false);
+  const [startTime, setStartTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [showDescription, setShowDescription] = useState(false);
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            setDuration(prevDuration => prevDuration + 1); 
-        }, 1000);
-        
-        return () => clearInterval(intervalId);
-    }, []);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setDuration((prevDuration) => prevDuration + 1);
+    }, 1000);
 
-    const handlers = useSwipeable({
-        onSwipedLeft: () => handleSwipe('left'),
-        onSwipedRight: () => handleSwipe('right'),
-        preventDefaultTouchmoveEvent: true,
-        trackMouse: true
-    });
+    return () => clearInterval(intervalId);
+  }, []);
 
-    const handleSwipe = (direction) => {
-        console.log(`GH Swiped ${direction}`);
-        const endTime = new Date().getTime();
-        const newDuration = (endTime - startTime); 
-        setDuration(newDuration);
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleSwipe("left"),
+    onSwipedRight: () => handleSwipe("right"),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
 
-        if (direction === 'right') {
-            document.getElementById('yesButton').click();
-        } else if (direction === 'left') {
-            document.getElementById('noButton').click();
-        }
-    };
+  const handleSwipe = (direction) => {
+    console.log(`GH Swiped ${direction}`);
+    const endTime = new Date().getTime();
+    const newDuration = endTime - startTime;
+    setDuration(newDuration);
 
-    const toggleDescription = () => {
-        setShowDescription(!showDescription);
-    };
+    if (direction === "right") {
+      document.getElementById("yesButton").click();
+    } 
+    
+    if (direction === "left") {
+      document.getElementById("noButton").click();
+    }
+  };
 
-    const handleNoButtonClick = () => {
-        console.log('NO Button clicked');
-        console.log('Duration:', duration); 
-    };
+  const toggleDescription = () => {
+    setShowDescription(!showDescription);
+  };
 
-    const handleYesButtonClick = () => {
-        console.log('YES Button clicked');
-        console.log('Duration:', duration);
-    };  
+  const handleNoButtonClick = () => {
+    console.log("NO Button clicked");
+    console.log("Duration:", duration);
+  };
 
-    return (
-        <Container>
-            <MediaBox {...handlers} style={{backgroundImage: `url(${imageUrl})`}}>
-    <MetaInfo onClick={toggleDescription}>
-        <Title>Art Title</Title>
-        <Price>105 SAT</Price>
-    </MetaInfo>
+  const handleYesButtonClick = () => {
+    console.log("YES Button clicked");
+    console.log("Duration:", duration);
+  };
 
-    <DescriptionContainer style={{transform: showDescription ? 'translateY(0%)' : 'translateY(100%)'}} onClick={toggleDescription}>
+  return (
+    <Container>
+      <MediaBox {...handlers} style={{ backgroundImage: `url(${imageUrl})` }}>
+        <MetaInfo onClick={toggleDescription}>
+          <Title>Art Title</Title>
+          <Price>105 SAT</Price>
+        </MetaInfo>
 
-        <Description>
-            This is the description of the art piece.
-        </Description>
-        <Description><b>Contract ID:</b> 0xa1111ac011d00888DD91751A4b98769862213cf5</Description>
-        <Description><b>Token Standard:</b> ERC-721</Description>
-        <Description><b>Chain:</b> BTC </Description>
-        <Description><b>Last Updated:</b> 2020</Description>
-    <ThumbnailPlaceholder /> {/* Placeholder thumbnail */}
-</DescriptionContainer>
-</MediaBox>
+        <DescriptionContainer
+          style={{
+            transform: showDescription ? "translateY(0%)" : "translateY(100%)",
+          }}
+          onClick={toggleDescription}
+        >
+          <Description>This is the description of the art piece.</Description>
+          <Description>
+            <b>Contract ID:</b> 0xa1111ac011d00888DD91751A4b98769862213cf5
+          </Description>
+          <Description>
+            <b>Token Standard:</b> ERC-721
+          </Description>
+          <Description>
+            <b>Chain:</b> BTC{" "}
+          </Description>
+          <Description>
+            <b>Last Updated:</b> 2020
+          </Description>
+          <ThumbnailPlaceholder /> {/* Placeholder thumbnail */}
+        </DescriptionContainer>
+      </MediaBox>
 
-            <Buttons>
-                <Link to="/">
-                    <ButtonNo id='noButton' onClick={handleNoButtonClick}> 
-                        <DownButton />
-                    </ButtonNo>
-                </Link>
+      <Buttons>
+        <Link to="/">
+          <ButtonNo id="noButton" onClick={handleNoButtonClick}>
+            <DownButton />
+          </ButtonNo>
+        </Link>
 
-                <Link to="/">
-                    <ButtonPurchase>
-                        <PurchaseButton />
-                    </ButtonPurchase>
-                </Link>
+        <Link to="/">
+          <ButtonPurchase>
+            <PurchaseButton />
+          </ButtonPurchase>
+        </Link>
 
-                <Link to="/">
-                    <ButtonYes id='yesButton' onClick={handleYesButtonClick}> 
-                        <UpButton />
-                    </ButtonYes>
-                </Link>
-
-
-            </Buttons>
-        </Container>
-    );
+        <Link to="/">
+          <ButtonYes id="yesButton" onClick={handleYesButtonClick}>
+            <UpButton />
+          </ButtonYes>
+        </Link>
+      </Buttons>
+    </Container>
+  );
 }
 
 export default Swipe;
