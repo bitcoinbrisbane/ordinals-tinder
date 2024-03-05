@@ -7,16 +7,17 @@ const Heading = tw.h1`text-2xl font-bold`;
 const Button = tw.button`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`;
 
 function Welcome() {
-    return (
-        <Container>
-            <Heading>Welcome</Heading>
-            <Link to = "/swipe"> <Button>Connect wallet</Button> </Link>
-        </Container>
-    );
+  return (
+    <Container>
+      <Heading>Welcome</Heading>
+      <Link to="/swipe">
+        {" "}
+        <Button>Connect wallet</Button>{" "}
+      </Link>
+    </Container>
+  );
 }
 
 export default Welcome;
-
-
 
 //Connect to anduro wallet
