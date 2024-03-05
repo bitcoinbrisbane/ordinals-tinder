@@ -178,7 +178,7 @@ model.fit(train_images, train_labels, epochs=10, batch_size=32)
 model.evaluate(test_images, test_labels)
 ```
 
-### Front end
+### Front End
 
 ```javascript
 import React from 'react';
