@@ -53,25 +53,30 @@ def next(address: str):
         raise HTTPException(status_code=500, detail="No ordinals found")
 
 
-@app.get("/ordinal/{index}")
-def ordinal(index: str):
-    ordinal_data = clients.hiro.get_ordinal_metadata(index)
+@app.get("/ordinal/{id}")
+def ordinal(id: str) -> Ordinal:
+    ordinal_data = clients.hiro.get_ordinal_metadata(id)
 
     print(json.dumps(ordinal_data, indent=4, sort_keys=True))
 
     id = ordinal_data.get("id")
-    number = ordinal_data.get("number")
     address = ordinal_data.get("address")
-    url = os.getenv('API_URL')
-    content_url = f"{url}/image/{id}"
     content_type = ordinal_data.get("content_type")
+    number = ordinal_data.get("number")
+    sat_rarity = ordinal_data.get("sat_rarity")
+    value = ordinal_data.get("value")
+    # url = os.getenv('API_URL')
+    # content_url = f"{url}/image/{id}"
+    
+    print(id, address, content_type, number)
+    ordinal = Ordinal(id=id, address=address, content_type=content_type, number=number, sat_rarity=sat_rarity, value=value)
 
-    return Ordinal(id=id, number=number, address=address, content_url=content_url, content_type=content_type)
+    return ordinal
 
 
-@app.get("/image/{index}")
-def image(index: str):
-    image = clients.hiro.get_ordinal_content(index)
+@app.get("/image/{id}")
+def image(id: str):
+    image = clients.hiro.get_ordinal_content(id)
     return Response(content=image, media_type="image/webp")
 
 

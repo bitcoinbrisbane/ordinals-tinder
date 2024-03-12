@@ -7,7 +7,7 @@ import os
 
 load_dotenv()
 
-def get_ordinal_content(id):
+def get_ordinal_content(id) -> str:
     # get the inscription off its id, eg: b4d12e3941fcab5cba27815d6e855fe9df970913e6b4dfbcb5c2a88564c3d667i0
     redis_url = os.getenv('REDIS_URL')
     r = redis.Redis.from_url(redis_url)
@@ -51,12 +51,8 @@ def get_ordinal_metadata(id):
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    # return this as json
     # Convert json into dictionary
     response_dict = response.json()
-    # if response.status_code == 200:
-    #     r.set(id, response_dict)
-    
-    # Pretty Printing JSON string back
-    # print(json.dumps(response_dict, indent=4, sort_keys=True))
+    r.set(id, json.dumps(response_dict))
+
     return response_dict

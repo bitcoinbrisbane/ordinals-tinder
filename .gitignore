@@ -400,3 +400,4 @@ src/backend/venv/*
 
 .env
 backend/venv/
+/venv/*
