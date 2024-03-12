@@ -97,7 +97,6 @@ def set_feedback(feedback: FeedbackDTO):
 
 @app.put("/seed", status_code=201)
 def seed_ordinals():
-    print("Seeding ordinals")
     try:
         # seed the ordinals
         ordinals = db.seed_ordinals()
@@ -111,8 +110,8 @@ def seed_ordinals():
         r.set('ordinals', ordinals_json)
 
         return {"ordinals": ordinals}
-    except:
-        raise HTTPException(status_code=500, detail="Error seeding ordinals")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=e)
 
 
 @app.post("/ordinal/buy")
