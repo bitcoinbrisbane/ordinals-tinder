@@ -97,7 +97,7 @@ def set_feedback(feedback: FeedbackDTO):
 
 
 @app.put("/seed", status_code=201)
-def seed_ordinals():
+def seed_ordinals() -> list[Ordinal]:
     # seed the ordinals
     ordinals = db.seed_ordinals()
 
@@ -109,7 +109,7 @@ def seed_ordinals():
     ordinals_json = json.dumps(ordinals, default=lambda o: o.__dict__)
     r.set('ordinals', ordinals_json)
 
-    return {"ordinals": ordinals}
+    return ordinals
 
 
 @app.post("/ordinal/buy")
