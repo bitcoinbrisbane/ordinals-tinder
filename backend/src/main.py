@@ -98,6 +98,7 @@ def set_feedback(feedback: FeedbackDTO):
 
 @app.put("/seed", status_code=201)
 def seed_ordinals():
+    print("Seeding ordinals")
     try:
         # seed the ordinals
         ordinals = db.seed_ordinals()
