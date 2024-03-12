@@ -1,5 +1,4 @@
 # Create a fast api
-from http.client import HTTPException
 import json
 import os
 import redis
@@ -12,7 +11,7 @@ import collaboration
 import clients.hiro
 import ml
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -105,15 +104,15 @@ def seed_ordinals():
 
         # if cache is enabled, update the cache
         print("Updating cache")
-        redis_url = os.getenv('REDIS_URL')
+        redis_url = os.getenv('REDIS_URL') or "redis://localhost:6379"
         r = redis.Redis.from_url(redis_url)
 
         ordinals_json = json.dumps(ordinals, default=lambda o: o.__dict__)
         r.set('ordinals', ordinals_json)
 
         return {"ordinals": ordinals}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=e)
+    except:
+        raise HTTPException(status_code=500, detail="Error seeding ordinals")
 
 
 @app.post("/ordinal/buy")
