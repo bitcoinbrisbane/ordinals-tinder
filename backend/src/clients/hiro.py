@@ -49,7 +49,7 @@ def get_ordinal(id) -> Ordinal:
     # get the metadata off its id, eg: b4d12e3941fcab5cba27815d6e855fe9df970913e6b4dfbcb5c2a88564c3d667i0
     r = redis_client()
 
-    # check if the metadata is in the cache
+    # # check if the metadata is in the cache
     response_dict = r.get(id)
     if response_dict:
         response_dict = json.loads(response_dict)
@@ -68,8 +68,9 @@ def get_ordinal(id) -> Ordinal:
 
         # Convert json into dictionary
         response_dict = response.json()
-        print(json.dumps(response_dict, indent=4, sort_keys=True))
-
+        
+        
+    print(json.dumps(response_dict, indent=4, sort_keys=True))
 
     id = response_dict.get("id")
     address = response_dict.get("address")

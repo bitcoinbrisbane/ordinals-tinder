@@ -63,7 +63,7 @@ def image(id: str):
     ordinal = clients.hiro.get_ordinal(id)
     image = clients.hiro.get_ordinal_content(id)
 
-    return Response(content=image, media_type=ordinal.media_type)
+    return Response(content=image, media_type=ordinal.mime_type)
 
 
 @app.post("/feedback", status_code=201)
