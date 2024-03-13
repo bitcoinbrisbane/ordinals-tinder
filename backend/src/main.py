@@ -54,26 +54,14 @@ def next(address: str) -> Ordinal:
 
 @app.get("/ordinal/{id}")
 def ordinal(id: str) -> Ordinal:
-    ordinal_data = clients.hiro.get_ordinal_metadata(id)
-
-    print(json.dumps(ordinal_data, indent=4, sort_keys=True))
-
-    id = ordinal_data.get("id")
-    address = ordinal_data.get("address")
-    content_type = ordinal_data.get("content_type")
-    number = ordinal_data.get("number")
-    sat_rarity = ordinal_data.get("sat_rarity")
-    value = ordinal_data.get("value")
-    
-    print(id, address, content_type, number)
-    ordinal = Ordinal(id=id, address=address, content_type=content_type, number=number, sat_rarity=sat_rarity, value=value)
-
+    ordinal = clients.hiro.get_ordinal(id)
     return ordinal
 
 
 @app.get("/image/{id}")
 def image(id: str):
     image = clients.hiro.get_ordinal_content(id)
+    print(image)
     return Response(content=image, media_type="image/webp")
 
 
@@ -109,7 +97,7 @@ def seed_ordinals() -> list[Ordinal]:
 
         return ordinals
     except Exception as e:
-        raise HTTPException(status_code=500, detail=e)
+        raise HTTPException(status_code=500, detail="Error seeding ordinals")
 
 
 @app.post("/ordinal/buy")

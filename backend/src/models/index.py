@@ -54,17 +54,19 @@ class FeedbackDTO(Feedback):
 class Ordinal(BaseModel):
     id: str
     address: str
-    content_type: str
     number: int
     sat_rarity: str
     value: int
+    mime_type: str
+    content_type: str
 
     def to_dict(self):
         return {
             "id": self.id,
             "address": self.address,
-            "content_type": self.content_type,
             "number": self.number,
             "sat_rarity": self.sat_rarity,
-            "value": self.value
+            "value": self.value,
+            "mime_type": self.mime_type,
+            "content_type": self.content_type
         }
