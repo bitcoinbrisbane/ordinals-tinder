@@ -44,12 +44,12 @@ def root():
 
 
 @app.get("/ordinal/next/{address}")
-def next(address: str):
+def next(address: str) -> Ordinal:
     try:
         ordinal = collaboration.next(address)
         return ordinal
     except:
-        raise HTTPException(status_code=500, detail="No ordinals found")
+        raise HTTPException(status_code=404, detail="No ordinals found")
 
 
 @app.get("/ordinal/{id}")

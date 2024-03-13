@@ -10,7 +10,11 @@ load_dotenv()
 
 
 def get_db():
-    url = os.getenv('MONGO_URL') or "mongodb://localhost:27017/"
+    url = os.getenv('MONGO_URL')
+
+    if not url:
+        raise Exception("MONGO_URL not found in environment variables.")
+
     client = pymongo.MongoClient(url)
     db = client["ordinals"]
     return db
