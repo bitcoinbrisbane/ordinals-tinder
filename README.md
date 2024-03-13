@@ -229,7 +229,7 @@ To run the application via docker, first use docker-compose to start the databas
 docker-compose up
 ```
 
-Now build the docker image and run the api.
+Now build the docker image and run the api from the root folder.
 
 ```bash
 docker build -t ordinals .

@@ -100,12 +100,12 @@ def seed_ordinals() -> list[Ordinal]:
         ordinals = db.seed_ordinals()
 
         # if cache is enabled, update the cache
-        # print("Updating cache")
-        # redis_url = os.getenv('REDIS_URL')
-        # r = redis.Redis.from_url(redis_url)
+        print("Updating cache")
+        redis_url = os.getenv('REDIS_URL')
+        r = redis.Redis.from_url(redis_url)
 
-        # ordinals_json = json.dumps(ordinals, default=lambda o: o.__dict__)
-        # r.set('ordinals', ordinals_json)
+        ordinals_json = json.dumps(ordinals, default=lambda o: o.__dict__)
+        r.set('ordinals', ordinals_json)
 
         return ordinals
     except Exception as e:
