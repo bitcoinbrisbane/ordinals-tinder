@@ -64,8 +64,6 @@ def ordinal(id: str) -> Ordinal:
     number = ordinal_data.get("number")
     sat_rarity = ordinal_data.get("sat_rarity")
     value = ordinal_data.get("value")
-    # url = os.getenv('API_URL')
-    # content_url = f"{url}/image/{id}"
     
     print(id, address, content_type, number)
     ordinal = Ordinal(id=id, address=address, content_type=content_type, number=number, sat_rarity=sat_rarity, value=value)
