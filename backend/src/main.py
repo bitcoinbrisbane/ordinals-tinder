@@ -60,9 +60,10 @@ def ordinal(id: str) -> Ordinal:
 
 @app.get("/image/{id}")
 def image(id: str):
+    ordinal = clients.hiro.get_ordinal(id)
     image = clients.hiro.get_ordinal_content(id)
-    print(image)
-    return Response(content=image, media_type="image/webp")
+
+    return Response(content=image, media_type=ordinal.media_type)
 
 
 @app.post("/feedback", status_code=201)

@@ -23,11 +23,8 @@ def get_ordinal_content(id) -> str:
     # check if the inscription is in the cache
     content = r.get(id)
 
-    # if content:
-    #     return content
-
-    # get the inscription off its id, eg: eb5f415da98b4a61407dac2452cb45a3fd168b38c95eec2c2bfd59c51b71cd4ci0
-    inscription = get_ordinal_content(id)
+    if content:
+        return content
 
     # https://docs.hiro.so/ordinals/inscription-content eg https://api.hiro.so/ordinals/v1/inscriptions/b4d12e3941fcab5cba27815d6e855fe9df970913e6b4dfbcb5c2a88564c3d667i0/content
     url = f"https://api.hiro.so/ordinals/v1/inscriptions/{id}/content"
@@ -53,27 +50,26 @@ def get_ordinal(id) -> Ordinal:
     r = redis_client()
 
     # check if the metadata is in the cache
-    # metadata = r.get(id)
+    response_dict = r.get(id)
+    if response_dict:
+        response_dict = json.loads(response_dict)
 
-    # if metadata:
-    #     return metadata
 
-    # https://docs.hiro.so/ordinals/inscription-metadata
-    url = f"https://api.hiro.so/ordinals/v1/inscriptions/{id}"
+    if not response_dict:
+        # https://docs.hiro.so/ordinals/inscription-metadata
+        url = f"https://api.hiro.so/ordinals/v1/inscriptions/{id}"
 
-    payload = {}
-    headers = {
-        'Accept': 'application/json'
-    }
+        payload = {}
+        headers = {
+            'Accept': 'application/json'
+        }
 
-    response = requests.request("GET", url, headers=headers, data=payload)
-    response_text = response.text
+        response = requests.request("GET", url, headers=headers, data=payload)
 
-    # Convert json into dictionary
-    response_dict = response.json()
-    r.set(id, json.dumps(response_dict))
+        # Convert json into dictionary
+        response_dict = response.json()
+        print(json.dumps(response_dict, indent=4, sort_keys=True))
 
-    print(json.dumps(response_dict, indent=4, sort_keys=True))
 
     id = response_dict.get("id")
     address = response_dict.get("address")
@@ -84,5 +80,8 @@ def get_ordinal(id) -> Ordinal:
     content_type = response_dict.get("content_type")
 
     ordinal = Ordinal(id=id, address=address, number=number, sat_rarity=sat_rarity, value=value, mime_type=mime_type, content_type=content_type)
+
+    ordinals_json = json.dumps(ordinal, default=lambda o: o.__dict__)
+    r.set(id, ordinals_json)
 
     return ordinal
