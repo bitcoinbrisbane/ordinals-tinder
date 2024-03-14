@@ -54,12 +54,20 @@ def next(address: str) -> Ordinal:
 
 @app.get("/ordinal/{id}")
 def ordinal(id: str) -> Ordinal:
+    # check for hex only
+    if not utils.is_hex(id):
+        raise HTTPException(status_code=400, detail="Invalid ordinal id")
+    
     ordinal = clients.hiro.get_ordinal(id)
     return ordinal
 
 
 @app.get("/image/{id}")
 def image(id: str):
+    # check for hex only
+    if not utils.is_hex(id):
+        raise HTTPException(status_code=400, detail="Invalid ordinal id")
+    
     ordinal = clients.hiro.get_ordinal(id)
     image = clients.hiro.get_ordinal_content(id)
 
@@ -68,7 +76,6 @@ def image(id: str):
 
 @app.post("/feedback", status_code=201)
 def set_feedback(feedback: FeedbackDTO):
-
     # validate the signature
     if not utils.verify_message(feedback.user, feedback.signature, feedback.message):
         return {"error": "Invalid signature"}
@@ -108,7 +115,6 @@ def buy():
 
 @app.post("/ordinal/sell", status_code=201)
 def sell(ordinal: Ordinal):
-
     valid = utils.verify_message(
         ordinal.address, ordinal.signature, ordinal.message)
     if not valid:
