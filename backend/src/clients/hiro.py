@@ -18,13 +18,13 @@ def redis_client():
 
 
 def get_ordinal_content(id) -> str:
-    r = redis_client()
+    # r = redis_client()
 
     # check if the inscription is in the cache
-    content = r.get(id)
+    # content = r.get(id)
 
-    if content:
-        return content
+    # if content:
+    #     return content
 
     # https://docs.hiro.so/ordinals/inscription-content eg https://api.hiro.so/ordinals/v1/inscriptions/b4d12e3941fcab5cba27815d6e855fe9df970913e6b4dfbcb5c2a88564c3d667i0/content
     url = f"https://api.hiro.so/ordinals/v1/inscriptions/{id}/content"
@@ -35,14 +35,14 @@ def get_ordinal_content(id) -> str:
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
-    print(response.text)
-
+    response.raise_for_status()
+    print(response.content)
     if response.status_code != 200:
         return None
     
-    r.set(id, response.text)
+    # r.set(id, response.content.hex())
 
-    return response.text
+    return response.content
 
 
 def get_ordinal(id) -> Ordinal:
