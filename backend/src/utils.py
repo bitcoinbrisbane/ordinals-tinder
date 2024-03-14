@@ -6,7 +6,9 @@ import os
 from dotenv import load_dotenv
 from Crypto.Hash import SHA256, RIPEMD160
 import base58
+import re
 from bech32 import bech32_encode, convertbits
+
 
 load_dotenv()
 
@@ -116,3 +118,10 @@ def generate_bitcoin_address():
         'p2sh_address': p2sh_address.decode(),
         'bech32_address': bech32_address
     }
+
+def is_hex(s):
+    hex_pattern = r'^0x[0-9a-fA-F]+$|^0X[0-9a-fA-F]+$|^[0-9a-fA-F]+$'
+    if re.match(hex_pattern, s):
+        return True
+    else:
+        return False
