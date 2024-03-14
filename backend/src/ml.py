@@ -16,7 +16,6 @@ from sklearn.preprocessing import LabelEncoder
 load_dotenv()
 
 
-
 def get_feedbacks_as_df() -> pd.DataFrame:
     feedbacks = db.get_feedbacks()
     return cast_to_df(feedbacks)
@@ -84,7 +83,6 @@ def train():
     print(predictions)
 
 
-
 def next(address) -> Ordinal:
     print(f"Getting next ordinal for user {address}")
 
@@ -115,5 +113,4 @@ def next(address) -> Ordinal:
         print(ordinals)
         ordinal = ordinals[i]
         return ordinal
-
 
