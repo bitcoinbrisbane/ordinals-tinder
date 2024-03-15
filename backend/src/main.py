@@ -14,6 +14,13 @@ import ml
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 load_dotenv()
 app = FastAPI()
@@ -41,6 +48,11 @@ def root():
 @app.get("/address")
 def root():
     return utils.generate_bitcoin_address()
+
+
+@app.post("/authenticate")
+def authenticate():
+
 
 
 @app.get("/ordinal/next/{address}")

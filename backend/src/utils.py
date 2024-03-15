@@ -99,15 +99,6 @@ def generate_bitcoin_address():
     witness_program = bytes([0x00, 0x14]) + hash160.digest()
     bech32_address = bech32_encode('bc', convertbits(witness_program, 8, 5))
 
-    # print(f"Private Key: {address_info['private_key']}")
-    # print(f"WIF: {address_info['WIF']}")
-    # print(f"Public Key: {address_info['public_key']}")
-    # print(f"Compressed Public Key: {address_info['compressed_public_key']}")
-    # print(f"P2PKH Address: {address_info['p2pkh_address']}")
-    # print(f"Compressed P2PKH Address: {address_info['compressed_p2pkh_address']}")
-    # print(f"P2SH Address: {address_info['p2sh_address']}")
-    # print(f"Bech32 Address: {address_info['bech32_address']}\n")
-
     return {
         'private_key': private_key.hex(),
         'WIF': WIF.decode(),

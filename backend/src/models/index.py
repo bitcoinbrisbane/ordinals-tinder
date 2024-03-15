@@ -70,3 +70,17 @@ class Ordinal(BaseModel):
             "mime_type": self.mime_type,
             "content_type": self.content_type
         }
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class User(BaseModel):
+    username: str
+    password: str
+
+
+class UserInDB(User):
+    hashed_password: str
