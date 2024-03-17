@@ -53,22 +53,22 @@ def next(address: str) -> Ordinal:
 
 
 @app.get("/ordinal/{id}")
-def ordinal(id: str) -> Ordinal:
+def ordinal(id: str, use_cache: bool = False) -> Ordinal:
     # check for hex only
     if not utils.is_hex(id):
         raise HTTPException(status_code=400, detail="Invalid ordinal id")
     
-    ordinal = clients.hiro.get_ordinal(id)
+    ordinal = clients.hiro.get_ordinal(id, use_cache)
     return ordinal
 
 
 @app.get("/image/{id}")
-def image(id: str):
+def image(id: str, use_cache: bool = False):
     # check for hex only
     if not utils.is_hex(id):
         raise HTTPException(status_code=400, detail="Invalid ordinal id")
     
-    ordinal = clients.hiro.get_ordinal(id)
+    ordinal = clients.hiro.get_ordinal(id, use_cache)
     image = clients.hiro.get_ordinal_content(id)
 
     return Response(content=image, media_type=ordinal.mime_type)
