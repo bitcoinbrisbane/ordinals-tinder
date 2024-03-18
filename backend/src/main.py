@@ -5,6 +5,8 @@ import redis
 from dotenv import load_dotenv
 from models.index import Feedback, FeedbackDTO
 from models.index import Ordinal
+from models.index import User, UserInDB
+
 import utils
 import db
 import collaboration
@@ -14,7 +16,7 @@ import ml
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -50,12 +52,28 @@ def root():
     return utils.generate_bitcoin_address()
 
 
+@app.post("/register")
+def register(user: User):
+
+    print(user)
+
+    user_in_db = UserInDB.create_from_user(user)
+    bitcoin_address = utils.generate_bitcoin_address()
+    print(bitcoin_address)
+    user_in_db.address = bitcoin_address.get('bech32_address')
+    user_in_db.private_key = bitcoin_address.get('private_key')
+
+    db.add_user(user_in_db)
+    return {"message": user_in_db.address}
+
+
 @app.post("/authenticate")
-def authenticate():
+def authenticate(user: User):
+    return {"message": "Hello Ordinals World!"}
 
 
 
-@app.get("/ordinal/next/{address}")
+@app.get("/ordinal/next/{address}", response_model=Ordinal, status_code=200)
 def next(address: str) -> Ordinal:
     try:
         ordinal = collaboration.next(address)

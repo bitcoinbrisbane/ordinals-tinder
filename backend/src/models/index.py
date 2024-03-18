@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+import bcrypt
 
 class Feedback(BaseModel):
     id: str
@@ -78,9 +78,30 @@ class Token(BaseModel):
 
 
 class User(BaseModel):
-    username: str
+    email: str
     password: str
 
+    def hash_password(self):
+        self.password = bcrypt.hashpw(self.password.encode('utf-8'), bcrypt.gensalt())
 
-class UserInDB(User):
+    def to_dict(self):
+        return {
+            "email": self.email,
+            "password": self.password
+        }
+
+
+class UserInDB(BaseModel):
+    email: str
     hashed_password: str
+    address: str
+    private_key: str
+
+    @classmethod
+    def create_from_user(cls, user: User):
+        # Hash the user's password
+        hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
+        # Return a new UserInDatabase instance with the username and hashed password
+        return cls(email=user.email, hashed_password=hashed_password.decode('utf-8'), address="", private_key="")
+
+

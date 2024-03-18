@@ -99,6 +99,7 @@ def generate_bitcoin_address():
     witness_program = bytes([0x00, 0x14]) + hash160.digest()
     bech32_address = bech32_encode('bc', convertbits(witness_program, 8, 5))
 
+    # TODO MAKE A CLASS
     return {
         'private_key': private_key.hex(),
         'WIF': WIF.decode(),

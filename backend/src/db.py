@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from models.index import Feedback
 from models.index import Ordinal
+from models.index import User, UserInDB
 
 load_dotenv()
 
@@ -32,6 +33,27 @@ def get_ordinals_collection():
     return collection
 
 
+def add_user(user_in_db: UserInDB):
+    db = get_db()
+    collection = db["users"]
+
+    if collection.find_one({"email": user_in_db.email}):
+        return {"error": "User already exists"}
+
+    user_dict = user_in_db.dict()
+    result = collection.insert_one({"user": user_dict})
+    return result.inserted_id
+
+
+def get_user(email: str) -> User:
+    db = get_db()
+    collection = db["users"]
+
+    query = {"email": email}
+    document = collection.find_one(query)
+    return User(**document)
+
+
 def get_feedbacks():
     db = get_db()
     collection = db["feedback"]
@@ -39,22 +61,21 @@ def get_feedbacks():
     return feedbacks
 
 
-def get_user_feedbacks(user):
+def get_user_feedbacks(user: str):
     collection = get_feedback_collection()
 
     query = {"user": user}
-
     feedbacks = collection.find(query)
     return feedbacks
 
 
-def insert_feedback(feedback: Feedback):
+def insert_feedback(feedback: Feedback) -> str:
     collection = get_feedback_collection()
 
     feedback_dict = feedback.to_dict()
 
     result = collection.insert_one(feedback_dict)
-    return result.inserted_id
+    return str(result.inserted_id)
 
 
 def get_ordinals():
@@ -63,7 +84,7 @@ def get_ordinals():
     return ordinals
 
 
-def get_ordinal_by_id() -> Ordinal:
+def get_ordinal_by_id(id: str) -> Ordinal:
     collection = get_ordinals_collection()
 
     query = {"id": id}
